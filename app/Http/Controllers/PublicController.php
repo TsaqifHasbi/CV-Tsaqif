@@ -15,31 +15,72 @@ use Inertia\Response;
 class PublicController extends Controller
 {
     /**
-     * Display the public CV/Portfolio page
+     * Get common data for all pages
+     */
+    private function getCommonData(): array
+    {
+        return [
+            'profile' => Profile::first(),
+            'socialLinks' => SocialLink::active()->ordered()->get(),
+        ];
+    }
+
+    /**
+     * Display the Home/Hero page
      */
     public function index(): Response
     {
-        $profile = Profile::first();
-        $socialLinks = SocialLink::active()->ordered()->get();
-        $education = Education::active()->ordered()->get();
-        $experiences = Experience::active()->ordered()->get();
-        $skills = Skill::active()->groupedByCategory()->get();
-        $projects = Project::active()->ordered()->get();
-        $certifications = Certification::active()->ordered()->get();
+        $data = $this->getCommonData();
 
-        // Group skills by category for better display and convert to array
-        $skillsByCategory = $skills->groupBy('category')->map(function ($items) {
+        return Inertia::render('Public/Home', $data);
+    }
+
+    /**
+     * Display the About page
+     */
+    public function about(): Response
+    {
+        $data = $this->getCommonData();
+
+        return Inertia::render('Public/About', $data);
+    }
+
+    /**
+     * Display the Education & Skills page
+     */
+    public function education(): Response
+    {
+        $data = $this->getCommonData();
+        $data['education'] = Education::active()->ordered()->get();
+        
+        $skills = Skill::active()->groupedByCategory()->get();
+        $data['skills'] = $skills->groupBy('category')->map(function ($items) {
             return $items->values()->toArray();
         })->toArray();
 
-        return Inertia::render('Public/Home', [
-            'profile' => $profile,
-            'socialLinks' => $socialLinks,
-            'education' => $education,
-            'experiences' => $experiences,
-            'skills' => $skillsByCategory,
-            'projects' => $projects,
-            'certifications' => $certifications,
-        ]);
+        return Inertia::render('Public/Education', $data);
+    }
+
+    /**
+     * Display the Experience, Projects & Certifications page
+     */
+    public function experience(): Response
+    {
+        $data = $this->getCommonData();
+        $data['experiences'] = Experience::active()->ordered()->get();
+        $data['projects'] = Project::active()->ordered()->get();
+        $data['certifications'] = Certification::active()->ordered()->get();
+
+        return Inertia::render('Public/Experience', $data);
+    }
+
+    /**
+     * Display the Contact page
+     */
+    public function contact(): Response
+    {
+        $data = $this->getCommonData();
+
+        return Inertia::render('Public/Contact', $data);
     }
 }

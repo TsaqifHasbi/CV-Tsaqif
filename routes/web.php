@@ -14,12 +14,24 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes
+| Public Routes - Multi-Page CV/Portfolio
 |--------------------------------------------------------------------------
 */
 
-// Public CV/Portfolio page at root URL
+// Home / Hero page
 Route::get('/', [PublicController::class, 'index'])->name('home');
+
+// About page
+Route::get('/about', [PublicController::class, 'about'])->name('about');
+
+// Education & Skills page (combined)
+Route::get('/education', [PublicController::class, 'education'])->name('education');
+
+// Experience, Projects & Certifications page (combined)
+Route::get('/experience', [PublicController::class, 'experience'])->name('experience');
+
+// Contact page
+Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 
 /*
 |--------------------------------------------------------------------------

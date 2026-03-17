@@ -19,15 +19,15 @@ export default function AdminLayout({ children, title }) {
     const isActive = (href) => window.location.pathname === new URL(href).pathname;
 
     return (
-        <div className="min-h-screen bg-dark-950">
+        <div className="min-h-screen bg-gray-50">
             {/* Mobile sidebar backdrop */}
             {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
 
             {/* Sidebar */}
-            <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-dark-900 border-r border-dark-700/50 transform transition-transform lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                <div className="flex items-center gap-3 px-6 h-16 border-b border-dark-700/50">
-                    <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-sm">CV</span>
-                    <span className="font-display font-bold text-white">Admin Panel</span>
+            <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 transform transition-transform lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                <div className="flex items-center gap-3 px-6 h-16 border-b border-gray-200">
+                    <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center text-white font-bold text-sm">CV</span>
+                    <span className="font-display font-bold text-gray-900">Admin Panel</span>
                 </div>
                 <nav className="p-4 space-y-1">
                     {navigation.map((item) => (
@@ -37,12 +37,12 @@ export default function AdminLayout({ children, title }) {
                         </Link>
                     ))}
                 </nav>
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-dark-700/50">
+                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
                     <Link href={route('home')} className="sidebar-link" target="_blank">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                         View Website
                     </Link>
-                    <Link href={route('logout')} method="post" as="button" className="sidebar-link w-full text-red-400 hover:text-red-300">
+                    <Link href={route('logout')} method="post" as="button" className="sidebar-link w-full text-red-500 hover:text-red-600">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                         Logout
                     </Link>
@@ -52,16 +52,16 @@ export default function AdminLayout({ children, title }) {
             {/* Main content */}
             <div className="lg:pl-64">
                 {/* Header */}
-                <header className="sticky top-0 z-30 bg-dark-900/90 backdrop-blur-lg border-b border-dark-700/50">
+                <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-lg border-b border-gray-200">
                     <div className="flex items-center justify-between px-4 h-16">
                         <div className="flex items-center gap-4">
-                            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700/50">
+                            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100">
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
                             </button>
-                            <h1 className="text-lg font-semibold text-white">{title || 'Dashboard'}</h1>
+                            <h1 className="text-lg font-semibold text-gray-900">{title || 'Dashboard'}</h1>
                         </div>
                         <div className="flex items-center gap-4">
-                            <span className="text-sm text-gray-400">{auth?.user?.name}</span>
+                            <span className="text-sm text-gray-600">{auth?.user?.name}</span>
                         </div>
                     </div>
                 </header>

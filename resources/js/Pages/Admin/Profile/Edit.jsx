@@ -35,12 +35,12 @@ export default function Edit({ profile }) {
             <Head title="Edit Profile" />
             <form onSubmit={handleSubmit} className="max-w-4xl space-y-6">
                 <div className="glass-card p-6 rounded-xl">
-                    <h3 className="text-lg font-semibold text-white mb-6">Profile Photo & CV</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-6">Profile Photo & CV</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div>
                             <label className="form-label">Profile Photo</label>
                             <div className="flex items-center gap-4">
-                                <div className="w-24 h-24 rounded-xl bg-dark-700 overflow-hidden flex-shrink-0">
+                                <div className="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
                                     {photoPreview || profile?.profile_photo ? (
                                         <img src={photoPreview || `/storage/${profile.profile_photo}`} alt="Preview" className="w-full h-full object-cover" />
                                     ) : (
@@ -49,24 +49,24 @@ export default function Edit({ profile }) {
                                 </div>
                                 <input type="file" accept="image/*" onChange={handlePhotoChange} className="form-input text-sm" />
                             </div>
-                            {errors.profile_photo && <p className="text-red-400 text-sm mt-1">{errors.profile_photo}</p>}
+                            {errors.profile_photo && <p className="text-red-500 text-sm mt-1">{errors.profile_photo}</p>}
                         </div>
                         <div>
                             <label className="form-label">CV File (PDF)</label>
-                            {profile?.cv_file && <p className="text-sm text-gray-400 mb-2">Current: <a href={`/storage/${profile.cv_file}`} target="_blank" className="text-primary-400 hover:underline">View CV</a></p>}
+                            {profile?.cv_file && <p className="text-sm text-gray-500 mb-2">Current: <a href={`/storage/${profile.cv_file}`} target="_blank" className="text-rose-500 hover:underline">View CV</a></p>}
                             <input type="file" accept=".pdf" onChange={(e) => setData('cv_file', e.target.files[0])} className="form-input text-sm" />
-                            {errors.cv_file && <p className="text-red-400 text-sm mt-1">{errors.cv_file}</p>}
+                            {errors.cv_file && <p className="text-red-500 text-sm mt-1">{errors.cv_file}</p>}
                         </div>
                     </div>
                 </div>
 
                 <div className="glass-card p-6 rounded-xl">
-                    <h3 className="text-lg font-semibold text-white mb-6">Basic Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-6">Basic Information</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div>
                             <label className="form-label">Full Name *</label>
                             <input type="text" value={data.full_name} onChange={(e) => setData('full_name', e.target.value)} className="form-input" required />
-                            {errors.full_name && <p className="text-red-400 text-sm mt-1">{errors.full_name}</p>}
+                            {errors.full_name && <p className="text-red-500 text-sm mt-1">{errors.full_name}</p>}
                         </div>
                         <div>
                             <label className="form-label">Headline</label>
@@ -84,7 +84,7 @@ export default function Edit({ profile }) {
                 </div>
 
                 <div className="glass-card p-6 rounded-xl">
-                    <h3 className="text-lg font-semibold text-white mb-6">Contact Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-6">Contact Information</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div><label className="form-label">Email</label><input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} className="form-input" /></div>
                         <div><label className="form-label">Phone</label><input type="text" value={data.phone} onChange={(e) => setData('phone', e.target.value)} className="form-input" /></div>

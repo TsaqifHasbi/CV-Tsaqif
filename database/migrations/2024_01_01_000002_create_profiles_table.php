@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('headline')->nullable(); // Professional headline
-            $table->text('short_intro')->nullable(); // Short introduction paragraph
-            $table->text('biography')->nullable(); // Long-form biography for About section
-            $table->string('profile_photo')->nullable(); // Path to profile photo
-            $table->string('cv_file')->nullable(); // Path to CV PDF file
+            $table->string('nickname')->nullable();
+            $table->string('headline')->nullable();
+            $table->text('short_intro')->nullable();
+            $table->text('biography')->nullable();
+            $table->string('profile_photo')->nullable();
+            $table->string('cv_file')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('location')->nullable();
