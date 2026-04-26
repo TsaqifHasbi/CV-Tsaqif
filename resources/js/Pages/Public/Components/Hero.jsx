@@ -3,7 +3,7 @@ import SocialLinks from './SocialLinks';
 
 export default function Hero({ profile, socialLinks }) {
     return (
-        <section className="relative flex items-center justify-center">
+        <section className="relative flex-1 flex items-center justify-center">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <div className="grid lg:grid-cols-2 gap-8 items-center">
                     {/* Left Content */}
@@ -16,6 +16,11 @@ export default function Hero({ profile, socialLinks }) {
                                     {profile?.nickname || profile?.full_name || 'Your Name'}
                                 </span>!
                             </h1>
+                            {profile?.headline && (
+                                <p className="text-lg text-rose-500 font-medium">
+                                    {profile.headline}
+                                </p>
+                            )}
                         </div>
 
                         {/* Introduction */}

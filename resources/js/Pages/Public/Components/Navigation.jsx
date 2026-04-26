@@ -12,6 +12,7 @@ export default function Navigation({ profile }) {
         { href: '/education', label: 'Education' },
         { href: '/experience', label: 'Experience' },
         { href: '/contact', label: 'Contact' },
+        { href: 'https://teknocode01.wordpress.com/', label: 'Blog', external: true }
     ];
 
     useEffect(() => {
@@ -38,16 +39,28 @@ export default function Navigation({ profile }) {
                             : 'bg-white border-gray-200 shadow-sm'
                         }`}>
                         {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${isActive(item.href)
-                                        ? 'text-rose-500'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                                    }`}
-                            >
-                                {item.label}
-                            </Link>
+                            item.external ? (
+                                <a
+                                    key={item.href}
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                                >
+                                    {item.label}
+                                </a>
+                            ) : (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${isActive(item.href)
+                                            ? 'text-rose-500'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    {item.label}
+                                </Link>
+                            )
                         ))}
                     </div>
                 </nav>
@@ -82,17 +95,30 @@ export default function Navigation({ profile }) {
                 <nav className={`absolute top-20 left-4 right-4 bg-white rounded-2xl border border-gray-200 shadow-xl p-4 transition-all duration-300 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
                     }`}>
                     {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(item.href)
-                                    ? 'bg-rose-50 text-rose-500'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                                }`}
-                        >
-                            {item.label}
-                        </Link>
+                        item.external ? (
+                            <a
+                                key={item.href}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block px-4 py-3 rounded-lg text-sm font-medium transition-colors text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                            >
+                                {item.label}
+                            </a>
+                        ) : (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(item.href)
+                                        ? 'bg-rose-50 text-rose-500'
+                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    }`}
+                            >
+                                {item.label}
+                            </Link>
+                        )
                     ))}
                 </nav>
             </div>

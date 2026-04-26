@@ -26,7 +26,7 @@ export default function Home({
             </Head>
 
             <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                <PublicLayout profile={safeProfile} socialLinks={safeSocialLinks}>
+                <PublicLayout profile={safeProfile} socialLinks={safeSocialLinks} fullHeight={true}>
                     <Hero profile={safeProfile} socialLinks={safeSocialLinks} />
                 </PublicLayout>
             </div>

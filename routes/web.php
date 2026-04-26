@@ -33,6 +33,10 @@ Route::get('/experience', [PublicController::class, 'experience'])->name('experi
 // Contact page
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 
+// Blog page
+Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog'])->name('blog');
+
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes (Protected by Auth Middleware)
@@ -42,30 +46,30 @@ Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     // Profile Management
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/photo', [AdminProfileController::class, 'deletePhoto'])->name('profile.delete-photo');
     Route::delete('/profile/cv', [AdminProfileController::class, 'deleteCv'])->name('profile.delete-cv');
-    
+
     // Education CRUD
     Route::resource('education', EducationController::class);
-    
+
     // Experience CRUD
     Route::resource('experience', ExperienceController::class);
-    
+
     // Skills CRUD
     Route::resource('skills', SkillController::class);
-    
+
     // Projects CRUD
     Route::resource('projects', ProjectController::class);
     Route::delete('/projects/{project}/image', [ProjectController::class, 'deleteImage'])->name('projects.delete-image');
-    
+
     // Certifications CRUD
     Route::resource('certifications', CertificationController::class);
     Route::delete('/certifications/{certification}/image', [CertificationController::class, 'deleteImage'])->name('certifications.delete-image');
-    
+
     // Social Links CRUD
     Route::resource('social-links', SocialLinkController::class);
 });
@@ -82,4 +86,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

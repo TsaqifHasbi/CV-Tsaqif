@@ -42,9 +42,13 @@ class ProfileController extends Controller
             'cv_file' => 'nullable|mimes:pdf|max:5120',
         ]);
 
+        // Remove file fields from validated data - will be handled separately
+        unset($validated['profile_photo']);
+        unset($validated['cv_file']);
+
         $profile = Profile::first();
 
-        // Handle profile photo upload
+        // Handle profile photo upload - only if new file is uploaded
         if ($request->hasFile('profile_photo')) {
             if ($profile && $profile->profile_photo) {
                 Storage::disk('public')->delete($profile->profile_photo);
@@ -52,7 +56,7 @@ class ProfileController extends Controller
             $validated['profile_photo'] = $request->file('profile_photo')->store('profile', 'public');
         }
 
-        // Handle CV file upload
+        // Handle CV file upload - only if new file is uploaded
         if ($request->hasFile('cv_file')) {
             if ($profile && $profile->cv_file) {
                 Storage::disk('public')->delete($profile->cv_file);
@@ -75,7 +79,7 @@ class ProfileController extends Controller
     public function deletePhoto(): RedirectResponse
     {
         $profile = Profile::first();
-        
+
         if ($profile && $profile->profile_photo) {
             Storage::disk('public')->delete($profile->profile_photo);
             $profile->update(['profile_photo' => null]);
@@ -90,7 +94,7 @@ class ProfileController extends Controller
     public function deleteCv(): RedirectResponse
     {
         $profile = Profile::first();
-        
+
         if ($profile && $profile->cv_file) {
             Storage::disk('public')->delete($profile->cv_file);
             $profile->update(['cv_file' => null]);
