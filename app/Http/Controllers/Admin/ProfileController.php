@@ -48,20 +48,20 @@ class ProfileController extends Controller
 
         $profile = Profile::first();
 
-        // Handle profile photo upload - only if new file is uploaded
+        // Handle profile photo upload - convert to base64
         if ($request->hasFile('profile_photo')) {
-            if ($profile && $profile->profile_photo) {
-                Storage::disk('public')->delete($profile->profile_photo);
-            }
-            $validated['profile_photo'] = $request->file('profile_photo')->store('profile', 'public');
+            $file = $request->file('profile_photo');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['profile_photo'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
-        // Handle CV file upload - only if new file is uploaded
+        // Handle CV file upload - convert to base64
         if ($request->hasFile('cv_file')) {
-            if ($profile && $profile->cv_file) {
-                Storage::disk('public')->delete($profile->cv_file);
-            }
-            $validated['cv_file'] = $request->file('cv_file')->store('cv', 'public');
+            $file = $request->file('cv_file');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['cv_file'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         if ($profile) {
@@ -81,7 +81,6 @@ class ProfileController extends Controller
         $profile = Profile::first();
 
         if ($profile && $profile->profile_photo) {
-            Storage::disk('public')->delete($profile->profile_photo);
             $profile->update(['profile_photo' => null]);
         }
 
@@ -96,7 +95,6 @@ class ProfileController extends Controller
         $profile = Profile::first();
 
         if ($profile && $profile->cv_file) {
-            Storage::disk('public')->delete($profile->cv_file);
             $profile->update(['cv_file' => null]);
         }
 

@@ -39,7 +39,7 @@ export default function About({
                                     <div className="relative rounded-2xl overflow-hidden shadow-xl">
                                         {safeProfile.profile_photo ? (
                                             <img
-                                                src={`/storage/${safeProfile.profile_photo}`}
+                                                src={safeProfile.profile_photo}
                                                 alt={safeProfile.full_name}
                                                 className="w-full h-[300px] lg:h-[400px] object-cover"
                                             />
@@ -120,7 +120,7 @@ export default function About({
                                     {safeProfile.cv_file && (
                                         <div className="pt-2">
                                             <a
-                                                href={`/storage/${safeProfile.cv_file}`}
+                                                href={safeProfile.cv_file}
                                                 download
                                                 className="btn-primary"
                                             >

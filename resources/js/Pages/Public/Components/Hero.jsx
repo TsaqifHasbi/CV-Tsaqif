@@ -37,7 +37,7 @@ export default function Hero({ profile, socialLinks }) {
                         {profile?.cv_file && (
                             <div>
                                 <a
-                                    href={`/storage/${profile.cv_file}`}
+                                    href={profile.cv_file}
                                     download
                                     className="btn-primary"
                                 >
@@ -57,7 +57,7 @@ export default function Hero({ profile, socialLinks }) {
                             <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden shadow-2xl">
                                 {profile?.profile_photo ? (
                                     <img
-                                        src={`/storage/${profile.profile_photo}`}
+                                        src={profile.profile_photo}
                                         alt={profile.full_name}
                                         className="w-full h-full object-cover"
                                     />

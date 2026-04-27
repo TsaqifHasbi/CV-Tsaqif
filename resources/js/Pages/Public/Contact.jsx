@@ -97,7 +97,7 @@ export default function Contact({
                                     {safeProfile.cv_file && (
                                         <div className="mt-4">
                                             <a
-                                                href={`/storage/${safeProfile.cv_file}`}
+                                                href={safeProfile.cv_file}
                                                 download
                                                 className="btn-secondary"
                                             >

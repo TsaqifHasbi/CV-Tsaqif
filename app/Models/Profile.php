@@ -28,10 +28,7 @@ class Profile extends Model
      */
     public function getProfilePhotoUrlAttribute(): ?string
     {
-        if ($this->profile_photo) {
-            return asset('storage/' . $this->profile_photo);
-        }
-        return null;
+        return $this->profile_photo;
     }
 
     /**
@@ -39,9 +36,6 @@ class Profile extends Model
      */
     public function getCvFileUrlAttribute(): ?string
     {
-        if ($this->cv_file) {
-            return asset('storage/' . $this->cv_file);
-        }
-        return null;
+        return $this->cv_file;
     }
 }

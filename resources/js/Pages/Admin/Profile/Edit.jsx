@@ -42,7 +42,7 @@ export default function Edit({ profile }) {
                             <div className="flex items-center gap-4">
                                 <div className="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
                                     {photoPreview || profile?.profile_photo ? (
-                                        <img src={photoPreview || `/storage/${profile.profile_photo}`} alt="Preview" className="w-full h-full object-cover" />
+                                        <img src={photoPreview || profile.profile_photo} alt="Preview" className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-500"><svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></div>
                                     )}
@@ -53,7 +53,7 @@ export default function Edit({ profile }) {
                         </div>
                         <div>
                             <label className="form-label">CV File (PDF)</label>
-                            {profile?.cv_file && <p className="text-sm text-gray-500 mb-2">Current: <a href={`/storage/${profile.cv_file}`} target="_blank" className="text-rose-500 hover:underline">View CV</a></p>}
+                            {profile?.cv_file && <p className="text-sm text-gray-500 mb-2">Current: <a href={profile.cv_file} target="_blank" className="text-rose-500 hover:underline">View CV</a></p>}
                             <input type="file" accept=".pdf" onChange={(e) => setData('cv_file', e.target.files[0])} className="form-input text-sm" />
                             {errors.cv_file && <p className="text-red-500 text-sm mt-1">{errors.cv_file}</p>}
                         </div>

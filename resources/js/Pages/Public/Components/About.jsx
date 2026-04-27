@@ -21,7 +21,7 @@ export default function About({ profile }) {
                         <div className="relative glass-card overflow-hidden rounded-2xl">
                             {profile.profile_photo ? (
                                 <img
-                                    src={`/storage/${profile.profile_photo}`}
+                                    src={profile.profile_photo}
                                     alt={profile.full_name}
                                     className="w-full h-[400px] lg:h-[500px] object-cover"
                                 />
@@ -127,7 +127,7 @@ export default function About({ profile }) {
                         {profile.cv_file && (
                             <div className="pt-4">
                                 <a
-                                    href={`/storage/${profile.cv_file}`}
+                                    href={profile.cv_file}
                                     download
                                     className="btn-primary"
                                 >
