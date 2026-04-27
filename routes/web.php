@@ -8,9 +8,19 @@ use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SocialLinkController;
+use App\Http\Controllers\FileServeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| File Serve Route (replaces storage:link symlink for cloud hosting)
+|--------------------------------------------------------------------------
+*/
+Route::get('/storage/{path}', [FileServeController::class, 'serve'])
+    ->where('path', '.*')
+    ->name('storage.serve');
 
 /*
 |--------------------------------------------------------------------------
