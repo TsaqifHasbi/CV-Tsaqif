@@ -75,10 +75,10 @@ export default function Experience({
     // Color variants for cards
     const cardColors = [
         { bg: 'from-rose-50 to-pink-50', border: 'border-rose-200', accent: 'bg-rose-500', text: 'text-rose-600' },
-        { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-200', accent: 'bg-blue-500', text: 'text-blue-600' },
-        { bg: 'from-amber-50 to-orange-50', border: 'border-amber-200', accent: 'bg-amber-500', text: 'text-amber-600' },
-        { bg: 'from-emerald-50 to-green-50', border: 'border-emerald-200', accent: 'bg-emerald-500', text: 'text-emerald-600' },
-        { bg: 'from-violet-50 to-purple-50', border: 'border-violet-200', accent: 'bg-violet-500', text: 'text-violet-600' },
+        // { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-200', accent: 'bg-blue-500', text: 'text-blue-600' },
+        // { bg: 'from-amber-50 to-orange-50', border: 'border-amber-200', accent: 'bg-amber-500', text: 'text-amber-600' },
+        // { bg: 'from-emerald-50 to-green-50', border: 'border-emerald-200', accent: 'bg-emerald-500', text: 'text-emerald-600' },
+        // { bg: 'from-violet-50 to-purple-50', border: 'border-violet-200', accent: 'bg-violet-500', text: 'text-violet-600' },
     ];
 
     const renderTimeline = (items, prefix) => {
