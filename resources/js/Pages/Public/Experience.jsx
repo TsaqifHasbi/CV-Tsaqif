@@ -24,6 +24,9 @@ export default function Experience({
     const safeProjects = Array.isArray(projects) ? projects : [];
     const safeCertifications = Array.isArray(certifications) ? certifications : [];
 
+    const workExperiences = safeExperiences.filter(exp => exp.organization && exp.organization.toLowerCase().includes('sari teknologi'));
+    const organizationExperiences = safeExperiences.filter(exp => !(exp.organization && exp.organization.toLowerCase().includes('sari teknologi')));
+
     const formatDate = (dateString) => {
         if (!dateString) return 'Sekarang';
         const date = new Date(dateString);
@@ -78,6 +81,135 @@ export default function Experience({
         { bg: 'from-violet-50 to-purple-50', border: 'border-violet-200', accent: 'bg-violet-500', text: 'text-violet-600' },
     ];
 
+    const renderTimeline = (items, prefix) => {
+        if (!items || items.length === 0) return null;
+        
+        return (
+            <div className="relative">
+                {/* Center Timeline Line */}
+                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-rose-500 from-[95%] to-rose-500/20 rounded-full"></div>
+
+                {/* Mobile Timeline Line */}
+                <div className="md:hidden absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 from-[95%] to-rose-500/20"></div>
+
+                {/* Timeline Items */}
+                <div className="space-y-12">
+                    {items.map((item, index) => {
+                        const colorScheme = cardColors[index % cardColors.length];
+                        const isEven = index % 2 === 0;
+                        const uniqueId = `${prefix}-${item.id}`;
+                        const isExpanded = expandedId === uniqueId;
+
+                        return (
+                            <div
+                                key={item.id}
+                                className={`relative flex items-start ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                                style={{
+                                    opacity: isVisible ? 1 : 0,
+                                    transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 150}ms`
+                                }}
+                            >
+                                {/* Timeline Dot - Center */}
+                                <div className="hidden md:flex absolute left-1/2 top-8 transform -translate-x-1/2 z-10">
+                                    <div className="w-5 h-5 rounded-full bg-rose-500 border-4 border-white shadow-md"></div>
+                                </div>
+
+                                {/* Mobile Timeline Dot */}
+                                <div className="md:hidden absolute left-2 top-8 transform -translate-x-1/2 z-10">
+                                    <div className="w-5 h-5 rounded-full bg-rose-500 border-4 border-white shadow-md"></div>
+                                </div>
+
+                                {/* Content Card */}
+                                <div className={`w-full md:w-[calc(50%-40px)] ${isEven ? 'md:pr-8' : 'md:pl-8'} pl-10 md:pl-0`}>
+                                    <div
+                                        className={`bg-gradient-to-br ${colorScheme.bg} border ${colorScheme.border} rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group`}
+                                        onClick={() => setExpandedId(isExpanded ? null : uniqueId)}
+                                    >
+                                        {/* Header */}
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className="flex-1">
+                                                {/* Date Badge */}
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colorScheme.text} bg-white shadow-sm`}>
+                                                        {formatDate(item.start_date)} - {item.is_current ? 'Sekarang' : formatDate(item.end_date)}
+                                                    </span>
+                                                    {item.is_current && (
+                                                        <span className="relative flex h-3 w-3">
+                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {/* Job Title */}
+                                                <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
+                                                    {item.job_title}
+                                                </h3>
+
+                                                {/* Organization */}
+                                                <p className="text-gray-700 font-semibold flex items-center gap-2">
+                                                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                    </svg>
+                                                    {item.organization}
+                                                </p>
+
+                                                {/* Location */}
+                                                {item.location && (
+                                                    <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                        {item.location}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {/* Expand Icon */}
+                                            <button className={`p-2 rounded-full bg-white shadow-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        {/* Description - Expandable */}
+                                        <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                            {item.description && (
+                                                <div className="pt-4 border-t border-gray-200/50">
+                                                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                                                        {item.description}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Preview Description (when collapsed) */}
+                                        {!isExpanded && item.description && (
+                                            <p className="text-gray-500 text-sm line-clamp-2 mt-3">
+                                                {item.description.split('\n')[0]}
+                                            </p>
+                                        )}
+
+                                        {/* Click hint */}
+                                        <p className="text-xs text-gray-400 mt-3 text-center">
+                                            {isExpanded ? 'Klik untuk menutup' : 'Klik untuk detail'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Empty space for alternating layout */}
+                                <div className="hidden md:block w-[calc(50%-40px)]"></div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <Head title={`Experience - ${safeProfile.full_name || 'Portfolio'}`}>
@@ -89,139 +221,31 @@ export default function Experience({
                     {/* Experience Section with Enhanced Cards */}
                     <section className="py-20 md:py-32 pt-28">
                         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="mb-16 text-center">
-                                <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-                                    Work <span className="text-rose-500">Experience</span>
-                                </h1>
-                                <p className="text-gray-600 max-w-2xl mx-auto">
-                                    Perjalanan profesional dan pencapaian karir saya
-                                </p>
-                            </div>
-
-                            {/* Enhanced Timeline with Cards */}
-                            {safeExperiences.length > 0 && (
-                                <div className="relative">
-                                    {/* Center Timeline Line */}
-                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-rose-500 via-rose-300 to-rose-100 rounded-full"></div>
-
-                                    {/* Mobile Timeline Line */}
-                                    <div className="md:hidden absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 via-rose-300 to-rose-100"></div>
-
-                                    {/* Timeline Items */}
-                                    <div className="space-y-12">
-                                        {safeExperiences.map((item, index) => {
-                                            const colorScheme = cardColors[index % cardColors.length];
-                                            const isEven = index % 2 === 0;
-                                            const isExpanded = expandedId === item.id;
-
-                                            return (
-                                                <div
-                                                    key={item.id}
-                                                    className={`relative flex items-start ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                                                    style={{
-                                                        opacity: isVisible ? 1 : 0,
-                                                        transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-                                                        transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 150}ms`
-                                                    }}
-                                                >
-                                                    {/* Timeline Dot - Center */}
-                                                    <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 z-10">
-                                                        <div className={`w-12 h-12 rounded-full ${colorScheme.accent} text-white flex items-center justify-center shadow-lg`}>
-                                                            {getWorkIcon(item.job_title)}
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Mobile Timeline Dot */}
-                                                    <div className="md:hidden absolute left-2 top-6 transform -translate-x-1/2 z-10">
-                                                        <div className={`w-5 h-5 rounded-full ${colorScheme.accent} border-4 border-white shadow-md`}></div>
-                                                    </div>
-
-                                                    {/* Content Card */}
-                                                    <div className={`w-full md:w-[calc(50%-40px)] ${isEven ? 'md:pr-8' : 'md:pl-8'} pl-10 md:pl-0`}>
-                                                        <div
-                                                            className={`bg-gradient-to-br ${colorScheme.bg} border ${colorScheme.border} rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group`}
-                                                            onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                                                        >
-                                                            {/* Header */}
-                                                            <div className="flex items-start justify-between mb-4">
-                                                                <div className="flex-1">
-                                                                    {/* Date Badge */}
-                                                                    <div className="flex items-center gap-2 mb-2">
-                                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colorScheme.text} bg-white shadow-sm`}>
-                                                                            {formatDate(item.start_date)} - {item.is_current ? 'Sekarang' : formatDate(item.end_date)}
-                                                                        </span>
-                                                                        {item.is_current && (
-                                                                            <span className="relative flex h-3 w-3">
-                                                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                                                                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-
-                                                                    {/* Job Title */}
-                                                                    <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
-                                                                        {item.job_title}
-                                                                    </h3>
-
-                                                                    {/* Organization */}
-                                                                    <p className="text-gray-700 font-semibold flex items-center gap-2">
-                                                                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                                                        </svg>
-                                                                        {item.organization}
-                                                                    </p>
-
-                                                                    {/* Location */}
-                                                                    {item.location && (
-                                                                        <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
-                                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                            </svg>
-                                                                            {item.location}
-                                                                        </p>
-                                                                    )}
-                                                                </div>
-
-                                                                {/* Expand Icon */}
-                                                                <button className={`p-2 rounded-full bg-white shadow-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                                                                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-
-                                                            {/* Description - Expandable */}
-                                                            <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                                                                {item.description && (
-                                                                    <div className="pt-4 border-t border-gray-200/50">
-                                                                        <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
-                                                                            {item.description}
-                                                                        </p>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-                                                            {/* Preview Description (when collapsed) */}
-                                                            {!isExpanded && item.description && (
-                                                                <p className="text-gray-500 text-sm line-clamp-2 mt-3">
-                                                                    {item.description.split('\n')[0]}
-                                                                </p>
-                                                            )}
-
-                                                            {/* Click hint */}
-                                                            <p className="text-xs text-gray-400 mt-3 text-center">
-                                                                {isExpanded ? 'Klik untuk menutup' : 'Klik untuk detail'}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Empty space for alternating layout */}
-                                                    <div className="hidden md:block w-[calc(50%-40px)]"></div>
-                                                </div>
-                                            );
-                                        })}
+                            {workExperiences.length > 0 && (
+                                <div className="mb-20">
+                                    <div className="mb-12 text-center">
+                                        <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+                                            Work <span className="text-rose-500">Experience</span>
+                                        </h1>
+                                        <p className="text-gray-600 max-w-2xl mx-auto">
+                                            Perjalanan profesional dan karir saya
+                                        </p>
                                     </div>
+                                    {renderTimeline(workExperiences, 'work')}
+                                </div>
+                            )}
+
+                            {organizationExperiences.length > 0 && (
+                                <div>
+                                    <div className="mb-12 text-center">
+                                        <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+                                            Organizational <span className="text-rose-500">Experience</span>
+                                        </h1>
+                                        <p className="text-gray-600 max-w-2xl mx-auto">
+                                            Kontribusi dan peran aktif dalam organisasi
+                                        </p>
+                                    </div>
+                                    {renderTimeline(organizationExperiences, 'org')}
                                 </div>
                             )}
                         </div>
