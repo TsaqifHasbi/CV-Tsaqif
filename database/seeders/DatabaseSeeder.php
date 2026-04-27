@@ -128,6 +128,7 @@ class DatabaseSeeder extends Seeder
             [
                 'job_title' => 'Asisten Laboratorium Struktur Data Informatika 2025',
                 'organization' => 'Universitas Jenderal Soedirman',
+                'type' => 'work',
                 'start_date' => '2025-03-01',
                 'end_date' => '2025-06-30',
                 'is_current' => false,
@@ -139,6 +140,7 @@ class DatabaseSeeder extends Seeder
             [
                 'job_title' => 'Ketua Divisi Pengembangan Sumber Daya Manusia',
                 'organization' => 'HMIF UNSOED',
+                'type' => 'organization',
                 'start_date' => '2025-03-01',
                 'end_date' => null,
                 'is_current' => true,
@@ -150,6 +152,7 @@ class DatabaseSeeder extends Seeder
             [
                 'job_title' => 'Koordinator Fakultas untuk Acara PORSOED',
                 'organization' => 'BEM FT UNSOED',
+                'type' => 'organization',
                 'start_date' => '2024-09-01',
                 'end_date' => '2024-11-30',
                 'is_current' => false,
@@ -161,6 +164,7 @@ class DatabaseSeeder extends Seeder
             [
                 'job_title' => 'Staff Kementerian Minat dan Bakat',
                 'organization' => 'BEM FT UNSOED',
+                'type' => 'organization',
                 'start_date' => '2024-03-01',
                 'end_date' => '2024-12-31',
                 'is_current' => false,
@@ -172,6 +176,7 @@ class DatabaseSeeder extends Seeder
             [
                 'job_title' => 'Search Engine Optimization Team Lead',
                 'organization' => 'SARI Teknologi',
+                'type' => 'work',
                 'start_date' => '2022-02-01',
                 'end_date' => '2022-07-31',
                 'is_current' => false,

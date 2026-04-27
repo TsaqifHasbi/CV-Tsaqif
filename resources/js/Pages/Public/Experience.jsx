@@ -24,8 +24,8 @@ export default function Experience({
     const safeProjects = Array.isArray(projects) ? projects : [];
     const safeCertifications = Array.isArray(certifications) ? certifications : [];
 
-    const workExperiences = safeExperiences.filter(exp => exp.organization && exp.organization.toLowerCase().includes('sari teknologi'));
-    const organizationExperiences = safeExperiences.filter(exp => !(exp.organization && exp.organization.toLowerCase().includes('sari teknologi')));
+    const workExperiences = safeExperiences.filter(exp => exp.type === 'work' || (!exp.type && exp.employment_type?.toLowerCase() !== 'volunteer'));
+    const organizationExperiences = safeExperiences.filter(exp => exp.type === 'organization' || (!exp.type && exp.employment_type?.toLowerCase() === 'volunteer'));
 
     const formatDate = (dateString) => {
         if (!dateString) return 'Sekarang';

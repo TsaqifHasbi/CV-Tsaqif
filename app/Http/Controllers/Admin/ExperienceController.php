@@ -37,6 +37,7 @@ class ExperienceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'type' => 'required|in:work,organization',
             'job_title' => 'required|string|max:255',
             'organization' => 'required|string|max:255',
             'start_date' => 'required|date',
@@ -78,6 +79,7 @@ class ExperienceController extends Controller
     public function update(Request $request, Experience $experience): RedirectResponse
     {
         $validated = $request->validate([
+            'type' => 'required|in:work,organization',
             'job_title' => 'required|string|max:255',
             'organization' => 'required|string|max:255',
             'start_date' => 'required|date',
