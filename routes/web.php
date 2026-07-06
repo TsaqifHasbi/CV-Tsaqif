@@ -75,6 +75,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('experience', ExperienceController::class);
 
     // Skills CRUD
+    Route::delete('/skills/{skill}/logo', [SkillController::class, 'deleteLogo'])->name('skills.delete-logo');
     Route::resource('skills', SkillController::class);
 
     // Projects CRUD

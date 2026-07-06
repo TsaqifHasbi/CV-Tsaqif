@@ -120,42 +120,70 @@ export default function Education({
 
                     {/* Skills Section */}
                     {Object.keys(safeSkills).length > 0 && (
-                        <section className="py-20 md:py-32 bg-gray-50">
-                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="mb-12">
-                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+                        <section className="py-20 md:py-32 bg-gray-50 overflow-hidden">
+                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                                <div>
+                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
                                         My <span className="text-rose-500">Skills</span>
                                     </h2>
+                                    <p className="text-gray-500 text-sm">Hover over logos to pause scrolling</p>
                                 </div>
+                            </div>
 
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {Object.entries(safeSkills).map(([category, categorySkills]) => (
-                                        <div key={category} className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                                                {category}
-                                            </h3>
-                                            <div className="space-y-4">
-                                                {categorySkills.map((skill, index) => (
-                                                    <div key={skill.id || index}>
-                                                        <div className="flex justify-between mb-2">
-                                                            <span className="text-gray-700 text-sm">{skill.name}</span>
-                                                            <span className="text-gray-400 text-sm">{skill.proficiency_level}%</span>
+                            <div className="space-y-12">
+                                {Object.entries(safeSkills).map(([category, categorySkills], categoryIndex) => {
+                                    const isOdd = categoryIndex % 2 === 0; // 1st is odd (index 0) -> scroll right, 2nd is even (index 1) -> scroll left
+
+                                    // Helper to duplicate skills for seamless looping
+                                    const getDuplicatedSkills = (items) => {
+                                        if (!items || items.length === 0) return [];
+                                        let duplicated = [...items];
+                                        while (duplicated.length < 12) {
+                                            duplicated = [...duplicated, ...items];
+                                        }
+                                        return [...duplicated, ...duplicated];
+                                    };
+
+                                    const duplicatedList = getDuplicatedSkills(categorySkills);
+
+                                    return (
+                                        <div key={category} className="space-y-4">
+                                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                                                <h3 className="text-lg font-bold text-gray-800 border-l-4 border-rose-500 pl-3">
+                                                    {category}
+                                                </h3>
+                                            </div>
+
+                                            <div className="w-full marquee-container">
+                                                <div className={isOdd ? 'marquee-track-right' : 'marquee-track-left'}>
+                                                    {duplicatedList.map((skill, idx) => (
+                                                        <div
+                                                            key={`${skill.id || idx}-${idx}`}
+                                                            className="inline-flex items-center gap-3 px-5 py-3 mx-3 bg-white border border-gray-150 rounded-xl shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 cursor-default"
+                                                        >
+                                                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
+                                                                {skill.logo ? (
+                                                                    <img
+                                                                        src={`/storage/${skill.logo}`}
+                                                                        alt={skill.name}
+                                                                        className="w-6 h-6 object-contain"
+                                                                    />
+                                                                ) : (
+                                                                    <span className="text-xs font-bold text-rose-500 bg-rose-50 w-full h-full flex items-center justify-center">
+                                                                        {skill.name.substring(0, 2).toUpperCase()}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">
+                                                                {skill.name}
+                                                            </span>
                                                         </div>
-                                                        <div className="skill-bar">
-                                                            <div
-                                                                className={`skill-progress bg-gradient-to-r ${getCategoryColor(category)}`}
-                                                                style={{
-                                                                    width: isVisible ? `${skill.proficiency_level}%` : '0%',
-                                                                    transitionDelay: `${index * 100}ms`
-                                                                }}
-                                                            ></div>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
+                                    );
+                                })}
                             </div>
                         </section>
                     )}

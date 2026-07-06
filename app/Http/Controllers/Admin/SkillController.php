@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Skill;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,13 +46,17 @@ class SkillController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:100',
-            'proficiency_level' => 'required|integer|min:0|max:100',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active', true);
         $validated['order'] = $validated['order'] ?? 0;
+
+        if ($request->hasFile('logo')) {
+            $validated['logo'] = $request->file('logo')->store('skills', 'public');
+        }
 
         Skill::create($validated);
 
@@ -79,12 +84,19 @@ class SkillController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:100',
-            'proficiency_level' => 'required|integer|min:0|max:100',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active', true);
+
+        if ($request->hasFile('logo')) {
+            if ($skill->logo) {
+                Storage::disk('public')->delete($skill->logo);
+            }
+            $validated['logo'] = $request->file('logo')->store('skills', 'public');
+        }
 
         $skill->update($validated);
 
@@ -96,8 +108,25 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill): RedirectResponse
     {
+        if ($skill->logo) {
+            Storage::disk('public')->delete($skill->logo);
+        }
+
         $skill->delete();
 
         return redirect()->route('admin.skills.index')->with('success', 'Skill deleted successfully.');
+    }
+
+    /**
+     * Delete the skill logo
+     */
+    public function deleteLogo(Skill $skill): RedirectResponse
+    {
+        if ($skill->logo) {
+            Storage::disk('public')->delete($skill->logo);
+            $skill->update(['logo' => null]);
+        }
+
+        return redirect()->route('admin.skills.edit', $skill)->with('success', 'Logo deleted successfully.');
     }
 }

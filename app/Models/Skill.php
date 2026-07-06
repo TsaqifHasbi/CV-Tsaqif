@@ -9,16 +9,17 @@ class Skill extends Model
 {
     use HasFactory;
 
+    protected $table = 'skills_with_logos';
+
     protected $fillable = [
         'name',
         'category',
-        'proficiency_level',
+        'logo',
         'order',
         'is_active',
     ];
 
     protected $casts = [
-        'proficiency_level' => 'integer',
         'is_active' => 'boolean',
         'order' => 'integer',
     ];

@@ -182,3 +182,69 @@
         display: none;
     }
 }
+
+/* Infinite Scrolling Marquee Styles */
+@keyframes marquee-scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes marquee-scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    padding: 10px 0;
+}
+
+/* Mask fade effects at the edges of the marquee */
+.marquee-container::before,
+.marquee-container::after {
+    content: "";
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 150px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgb(249, 250, 251) 0%, rgba(249, 250, 251, 0) 100%);
+}
+
+.marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgb(249, 250, 251) 0%, rgba(249, 250, 251, 0) 100%);
+}
+
+.marquee-track-right {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll-right 25s linear infinite;
+}
+
+.marquee-track-left {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll-left 25s linear infinite;
+}
+
+.marquee-track-right:hover,
+.marquee-track-left:hover {
+    animation-play-state: paused;
+}

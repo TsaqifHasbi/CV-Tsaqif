@@ -199,69 +199,69 @@ class DatabaseSeeder extends Seeder
     {
         $skills = [
             // UI/UX Design
-            ['name' => 'Figma', 'category' => 'Desain UI/UX', 'proficiency_level' => 90, 'order' => 1],
-            ['name' => 'Prototyping', 'category' => 'Desain UI/UX', 'proficiency_level' => 88, 'order' => 2],
-            ['name' => 'Canva', 'category' => 'Desain UI/UX', 'proficiency_level' => 85, 'order' => 3],
-            ['name' => 'Adobe Illustrator', 'category' => 'Desain UI/UX', 'proficiency_level' => 82, 'order' => 4],
+            ['name' => 'Figma', 'category' => 'Desain UI/UX', 'order' => 1],
+            ['name' => 'Prototyping', 'category' => 'Desain UI/UX', 'order' => 2],
+            ['name' => 'Canva', 'category' => 'Desain UI/UX', 'order' => 3],
+            ['name' => 'Adobe Illustrator', 'category' => 'Desain UI/UX', 'order' => 4],
 
             // Web Development
-            ['name' => 'HTML', 'category' => 'Pengembangan Web', 'proficiency_level' => 95, 'order' => 5],
-            ['name' => 'CSS', 'category' => 'Pengembangan Web', 'proficiency_level' => 90, 'order' => 6],
-            ['name' => 'JavaScript', 'category' => 'Pengembangan Web', 'proficiency_level' => 88, 'order' => 7],
-            ['name' => 'Web APIs', 'category' => 'Pengembangan Web', 'proficiency_level' => 80, 'order' => 8],
+            ['name' => 'HTML', 'category' => 'Pengembangan Web', 'order' => 5],
+            ['name' => 'CSS', 'category' => 'Pengembangan Web', 'order' => 6],
+            ['name' => 'JavaScript', 'category' => 'Pengembangan Web', 'order' => 7],
+            ['name' => 'Web APIs', 'category' => 'Pengembangan Web', 'order' => 8],
 
             // JavaScript Frameworks
-            ['name' => 'ReactJS', 'category' => 'JavaScript Frameworks', 'proficiency_level' => 85, 'order' => 9],
-            ['name' => 'VueJS', 'category' => 'JavaScript Frameworks', 'proficiency_level' => 50, 'order' => 10],
-            ['name' => 'Component Architecture', 'category' => 'JavaScript Frameworks', 'proficiency_level' => 82, 'order' => 11],
-            ['name' => 'State Management', 'category' => 'JavaScript Frameworks', 'proficiency_level' => 78, 'order' => 12],
+            ['name' => 'ReactJS', 'category' => 'JavaScript Frameworks', 'order' => 9],
+            ['name' => 'VueJS', 'category' => 'JavaScript Frameworks', 'order' => 10],
+            ['name' => 'Component Architecture', 'category' => 'JavaScript Frameworks', 'order' => 11],
+            ['name' => 'State Management', 'category' => 'JavaScript Frameworks', 'order' => 12],
 
             // Frontend Frameworks
-            ['name' => 'Bootstrap', 'category' => 'Framework Frontend', 'proficiency_level' => 88, 'order' => 13],
-            ['name' => 'Tailwind CSS', 'category' => 'Framework Frontend', 'proficiency_level' => 85, 'order' => 14],
-            ['name' => 'Bulma', 'category' => 'Framework Frontend', 'proficiency_level' => 15, 'order' => 15],
-            ['name' => 'Material-UI', 'category' => 'Framework Frontend', 'proficiency_level' => 10, 'order' => 16],
+            ['name' => 'Bootstrap', 'category' => 'Framework Frontend', 'order' => 13],
+            ['name' => 'Tailwind CSS', 'category' => 'Framework Frontend', 'order' => 14],
+            ['name' => 'Bulma', 'category' => 'Framework Frontend', 'order' => 15],
+            ['name' => 'Material-UI', 'category' => 'Framework Frontend', 'order' => 16],
 
             // Backend Frameworks
-            ['name' => 'CodeIgniter', 'category' => 'Framework Backend', 'proficiency_level' => 82, 'order' => 17],
-            ['name' => 'Laravel', 'category' => 'Framework Backend', 'proficiency_level' => 80, 'order' => 18],
-            ['name' => 'AdonisJS', 'category' => 'Framework Backend', 'proficiency_level' => 75, 'order' => 19],
+            ['name' => 'CodeIgniter', 'category' => 'Framework Backend', 'order' => 17],
+            ['name' => 'Laravel', 'category' => 'Framework Backend', 'order' => 18],
+            ['name' => 'AdonisJS', 'category' => 'Framework Backend', 'order' => 19],
 
             // Programming Languages
-            ['name' => 'C', 'category' => 'Pemrograman Logika', 'proficiency_level' => 95, 'order' => 20],
-            ['name' => 'C++', 'category' => 'Pemrograman Logika', 'proficiency_level' => 88, 'order' => 21],
-            ['name' => 'Python', 'category' => 'Pemrograman Logika', 'proficiency_level' => 85, 'order' => 22],
-            ['name' => 'Java (OOP)', 'category' => 'Pemrograman Logika', 'proficiency_level' => 82, 'order' => 23],
+            ['name' => 'C', 'category' => 'Pemrograman Logika', 'order' => 20],
+            ['name' => 'C++', 'category' => 'Pemrograman Logika', 'order' => 21],
+            ['name' => 'Python', 'category' => 'Pemrograman Logika', 'order' => 22],
+            ['name' => 'Java (OOP)', 'category' => 'Pemrograman Logika', 'order' => 23],
 
             // Database
-            ['name' => 'MySQL', 'category' => 'Database & SQL', 'proficiency_level' => 88, 'order' => 24],
-            ['name' => 'SQL Queries', 'category' => 'Database & SQL', 'proficiency_level' => 85, 'order' => 25],
-            ['name' => 'Database Design', 'category' => 'Database & SQL', 'proficiency_level' => 80, 'order' => 26],
-            ['name' => 'Data Modeling', 'category' => 'Database & SQL', 'proficiency_level' => 78, 'order' => 27],
+            ['name' => 'MySQL', 'category' => 'Database & SQL', 'order' => 24],
+            ['name' => 'SQL Queries', 'category' => 'Database & SQL', 'order' => 25],
+            ['name' => 'Database Design', 'category' => 'Database & SQL', 'order' => 26],
+            ['name' => 'Data Modeling', 'category' => 'Database & SQL', 'order' => 27],
 
             // Version Control
-            ['name' => 'Git', 'category' => 'Version Control', 'proficiency_level' => 92, 'order' => 28],
-            ['name' => 'GitHub', 'category' => 'Version Control', 'proficiency_level' => 88, 'order' => 29],
-            ['name' => 'Collaboration', 'category' => 'Version Control', 'proficiency_level' => 85, 'order' => 30],
-            ['name' => 'Branch Management', 'category' => 'Version Control', 'proficiency_level' => 82, 'order' => 31],
+            ['name' => 'Git', 'category' => 'Version Control', 'order' => 28],
+            ['name' => 'GitHub', 'category' => 'Version Control', 'order' => 29],
+            ['name' => 'Collaboration', 'category' => 'Version Control', 'order' => 30],
+            ['name' => 'Branch Management', 'category' => 'Version Control', 'order' => 31],
 
             // Digital Marketing
-            ['name' => 'Social Media', 'category' => 'Digital Marketing', 'proficiency_level' => 90, 'order' => 32],
-            ['name' => 'Google Ads', 'category' => 'Digital Marketing', 'proficiency_level' => 88, 'order' => 33],
-            ['name' => 'Analytics', 'category' => 'Digital Marketing', 'proficiency_level' => 85, 'order' => 34],
-            ['name' => 'Content Strategy', 'category' => 'Digital Marketing', 'proficiency_level' => 83, 'order' => 35],
+            ['name' => 'Social Media', 'category' => 'Digital Marketing', 'order' => 32],
+            ['name' => 'Google Ads', 'category' => 'Digital Marketing', 'order' => 33],
+            ['name' => 'Analytics', 'category' => 'Digital Marketing', 'order' => 34],
+            ['name' => 'Content Strategy', 'category' => 'Digital Marketing', 'order' => 35],
 
             // SEO
-            ['name' => 'Keyword Research', 'category' => 'SEO', 'proficiency_level' => 95, 'order' => 36],
-            ['name' => 'On-Page SEO', 'category' => 'SEO', 'proficiency_level' => 92, 'order' => 37],
-            ['name' => 'Technical SEO', 'category' => 'SEO', 'proficiency_level' => 88, 'order' => 38],
-            ['name' => 'SEO Analytics', 'category' => 'SEO', 'proficiency_level' => 85, 'order' => 39],
+            ['name' => 'Keyword Research', 'category' => 'SEO', 'order' => 36],
+            ['name' => 'On-Page SEO', 'category' => 'SEO', 'order' => 37],
+            ['name' => 'Technical SEO', 'category' => 'SEO', 'order' => 38],
+            ['name' => 'SEO Analytics', 'category' => 'SEO', 'order' => 39],
 
             // Microsoft Office
-            ['name' => 'Excel', 'category' => 'Microsoft Office', 'proficiency_level' => 92, 'order' => 40],
-            ['name' => 'Word', 'category' => 'Microsoft Office', 'proficiency_level' => 88, 'order' => 41],
-            ['name' => 'PowerPoint', 'category' => 'Microsoft Office', 'proficiency_level' => 85, 'order' => 42],
-            ['name' => 'Outlook', 'category' => 'Microsoft Office', 'proficiency_level' => 82, 'order' => 43],
+            ['name' => 'Excel', 'category' => 'Microsoft Office', 'order' => 40],
+            ['name' => 'Word', 'category' => 'Microsoft Office', 'order' => 41],
+            ['name' => 'PowerPoint', 'category' => 'Microsoft Office', 'order' => 42],
+            ['name' => 'Outlook', 'category' => 'Microsoft Office', 'order' => 43],
         ];
 
         foreach ($skills as $skill) {
