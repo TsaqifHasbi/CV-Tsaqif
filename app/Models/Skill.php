@@ -47,4 +47,15 @@ class Skill extends Model
     {
         return $query->orderBy('category', 'asc')->orderBy('order', 'asc');
     }
+
+    /**
+     * Get the logo URL via the dedicated route (avoids sending base64 in props)
+     */
+    public function getLogoUrlAttribute(): ?string
+    {
+        if ($this->logo) {
+            return route('skills.logo', $this);
+        }
+        return null;
+    }
 }

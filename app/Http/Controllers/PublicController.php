@@ -11,6 +11,7 @@ use App\Models\Skill;
 use App\Models\SocialLink;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
@@ -54,6 +55,7 @@ class PublicController extends Controller
         $data['education'] = Education::active()->ordered()->get();
 
         $skills = Skill::active()->groupedByCategory()->get();
+        $skills->each->makeHidden('logo')->each->append('logo_url');
         $data['skills'] = $skills->groupBy('category')->map(function ($items) {
             return $items->values()->toArray();
         })->toArray();
@@ -85,9 +87,30 @@ class PublicController extends Controller
     }
 
     /**
+     * Serve a skill logo by ID (returns the image from base64 stored in DB)
+     */
+    public function serveSkillLogo(Skill $skill): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    {
+        if (!$skill->logo) {
+            abort(404);
+        }
+
+        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $skill->logo, $matches)) {
+            $mime = $matches[1];
+            $data = base64_decode($matches[3]);
+
+            return response($data, 200)
+                ->header('Content-Type', $mime)
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+
+        abort(404);
+    }
+
+    /**
      * Send Contact Message
      */
-    public function sendContactMessage(\Illuminate\Http\Request $request)
+    public function sendContactMessage(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
