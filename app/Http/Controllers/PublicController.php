@@ -52,7 +52,7 @@ class PublicController extends Controller
     {
         $data = $this->getCommonData();
         $data['education'] = Education::active()->ordered()->get();
-        
+
         $skills = Skill::active()->groupedByCategory()->get();
         $data['skills'] = $skills->groupBy('category')->map(function ($items) {
             return $items->values()->toArray();
@@ -82,5 +82,32 @@ class PublicController extends Controller
         $data = $this->getCommonData();
 
         return Inertia::render('Public/Contact', $data);
+    }
+
+    /**
+     * Send Contact Message
+     */
+    public function sendContactMessage(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string|max:5000',
+            '_honey' => 'nullable|string', // Spam protection
+        ]);
+
+        if (!empty($validated['_honey'])) {
+            return back()->with('error', 'Spam detected.');
+        }
+
+        try {
+            \Illuminate\Support\Facades\Mail::to('tsaqifhasbi17@gmail.com')
+                ->send(new \App\Mail\ContactMessage($validated));
+
+            return back()->with('success', 'Pesan Anda berhasil dikirim! Saya akan segera menghubungi Anda kembali.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Contact form error: ' . $e->getMessage());
+            return back()->with('error', 'Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba beberapa saat lagi.');
+        }
     }
 }

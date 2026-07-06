@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 | File Serve Route (replaces storage:link symlink for cloud hosting)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/storage/{path}', [FileServeController::class, 'serve'])
     ->where('path', '.*')
     ->name('storage.serve');
@@ -42,6 +43,9 @@ Route::get('/experience', [PublicController::class, 'experience'])->name('experi
 
 // Contact page
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+
+// Contact Form Submit
+Route::post('/contact/send', [PublicController::class, 'sendContactMessage'])->name('contact.send');
 
 // Blog page
 Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog'])->name('blog');
