@@ -50,6 +50,9 @@ Route::post('/contact/send', [PublicController::class, 'sendContactMessage'])->n
 // Blog page
 Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog'])->name('blog');
 
+// Serve skill logo dynamically to avoid payload size limit issues
+Route::get('/skills/{skill}/logo', [PublicController::class, 'serveSkillLogo'])->name('skills.logo');
+
 
 /*
 |--------------------------------------------------------------------------

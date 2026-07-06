@@ -3,7 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
-        type: 'work', job_title: '', organization: '', start_date: '', end_date: '', is_current: false, description: '', location: '', employment_type: '', is_active: true,
+        type: 'work', job_title: '', organization: '', start_date: '', end_date: '', is_current: false, description: '', location: '', employment_type: '', is_active: true, order: 0,
     });
 
     const handleSubmit = (e) => { e.preventDefault(); post(route('admin.experience.store')); };
@@ -25,6 +25,12 @@ export default function Create() {
                     </div>
                     <div><label className="form-label">Description</label><textarea value={data.description} onChange={(e) => setData('description', e.target.value)} className="form-input" rows="5" placeholder="Responsibilities and achievements..."></textarea></div>
                     <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={data.is_active} onChange={(e) => setData('is_active', e.target.checked)} className="rounded rounded border-gray-300 text-rose-500 focus:ring-rose-500" /><label htmlFor="is_active" className="text-gray-700">Active</label></div>
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-700 flex items-center gap-2">
+                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Order position is managed via drag & drop on the index page. New items are placed at the end of their group.
+                    </div>
                 </div>
                 <div className="flex items-center gap-4"><button type="submit" disabled={processing} className="btn-primary">{processing ? 'Saving...' : 'Save Experience'}</button><Link href={route('admin.experience.index')} className="btn-secondary">Cancel</Link></div>
             </form>
