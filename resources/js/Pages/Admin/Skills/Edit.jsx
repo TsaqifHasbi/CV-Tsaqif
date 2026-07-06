@@ -62,9 +62,9 @@ export default function Edit({ skill, categories }) {
                         <label className="form-label">Skill Logo / Icon</label>
                         <div className="flex items-center gap-4">
                             <div className="w-16 h-16 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                {logoPreview || skill.logo ? (
+                                {logoPreview || skill.logo_url ? (
                                     <img 
-                                        src={logoPreview || skill.logo} 
+                                        src={logoPreview || skill.logo_url} 
                                         alt={skill.name} 
                                         className="w-12 h-12 object-contain" 
                                     />
@@ -82,7 +82,7 @@ export default function Edit({ skill, categories }) {
                                 onChange={handleLogoChange} 
                                 className="form-input text-sm" 
                             />
-                            {skill.logo && (
+                            {skill.logo_url && (
                                 <button 
                                     type="button" 
                                     onClick={deleteLogo} 

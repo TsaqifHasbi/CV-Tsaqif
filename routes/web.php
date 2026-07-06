@@ -47,11 +47,11 @@ Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 // Contact Form Submit
 Route::post('/contact/send', [PublicController::class, 'sendContactMessage'])->name('contact.send');
 
+// Skill Logo (serves base64 logo as image response)
+Route::get('/skills/{skill}/logo', [PublicController::class, 'serveSkillLogo'])->name('skills.logo');
+
 // Blog page
 Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog'])->name('blog');
-
-// Serve skill logo dynamically to avoid payload size limit issues
-Route::get('/skills/{skill}/logo', [PublicController::class, 'serveSkillLogo'])->name('skills.logo');
 
 
 /*

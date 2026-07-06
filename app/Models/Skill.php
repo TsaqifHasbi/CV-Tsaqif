@@ -25,6 +25,17 @@ class Skill extends Model
     ];
 
     /**
+     * Hide the raw base64 logo from JSON serialization.
+     * Use the logo_url accessor instead.
+     */
+    protected $hidden = ['logo'];
+
+    /**
+     * The accessors to append to the model's array form.
+     */
+    protected $appends = ['logo_url'];
+
+    /**
      * Scope for active skills
      */
     public function scopeActive($query)
@@ -54,7 +65,7 @@ class Skill extends Model
     public function getLogoUrlAttribute(): ?string
     {
         if ($this->logo) {
-            return route('skills.logo', $this);
+            return route('skills.logo', $this, false);
         }
         return null;
     }

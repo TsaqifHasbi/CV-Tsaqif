@@ -55,7 +55,7 @@ class PublicController extends Controller
         $data['education'] = Education::active()->ordered()->get();
 
         $skills = Skill::active()->groupedByCategory()->get();
-        $skills->each->makeHidden('logo')->each->append('logo_url');
+        $skills->each->append('logo_url');
         $data['skills'] = $skills->groupBy('category')->map(function ($items) {
             return $items->values()->toArray();
         })->toArray();
@@ -97,7 +97,7 @@ class PublicController extends Controller
 
         if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $skill->logo, $matches)) {
             $mime = $matches[1];
-            $data = base64_decode($matches[3]);
+            $data = base64_decode($matches[2]);
 
             return response($data, 200)
                 ->header('Content-Type', $mime)

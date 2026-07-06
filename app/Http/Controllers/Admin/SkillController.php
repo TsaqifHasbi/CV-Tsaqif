@@ -17,6 +17,7 @@ class SkillController extends Controller
     public function index(): Response
     {
         $skills = Skill::groupedByCategory()->get();
+        $skills->each->append('logo_url');
         $skillsByCategory = $skills->groupBy('category');
 
         return Inertia::render('Admin/Skills/Index', [
@@ -72,6 +73,8 @@ class SkillController extends Controller
     public function edit(Skill $skill): Response
     {
         $categories = Skill::distinct()->pluck('category')->filter()->values();
+
+        $skill->append('logo_url');
 
         return Inertia::render('Admin/Skills/Edit', [
             'skill' => $skill,
