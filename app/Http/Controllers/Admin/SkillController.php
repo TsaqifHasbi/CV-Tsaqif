@@ -94,6 +94,9 @@ class SkillController extends Controller
 
         $validated['is_active'] = $request->boolean('is_active', true);
 
+        // Remove logo by default unless a new file is uploaded
+        unset($validated['logo']);
+
         // Convert logo image to base64 string
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
