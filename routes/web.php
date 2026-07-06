@@ -71,6 +71,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('education', EducationController::class);
 
     // Experience CRUD
+    Route::post('experience/reorder', [ExperienceController::class, 'reorder'])->name('experience.reorder');
     Route::resource('experience', ExperienceController::class);
 
     // Skills CRUD

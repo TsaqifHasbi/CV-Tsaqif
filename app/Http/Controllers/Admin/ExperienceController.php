@@ -46,13 +46,15 @@ class ExperienceController extends Controller
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'employment_type' => 'nullable|string|max:50',
-            'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
         $validated['is_current'] = $request->boolean('is_current', false);
         $validated['is_active'] = $request->boolean('is_active', true);
-        $validated['order'] = $validated['order'] ?? 0;
+
+        // Auto-assign order: place at the end of its type group
+        $maxOrder = Experience::where('type', $validated['type'])->max('order') ?? -1;
+        $validated['order'] = $maxOrder + 1;
 
         if ($validated['is_current']) {
             $validated['end_date'] = null;
@@ -61,6 +63,23 @@ class ExperienceController extends Controller
         Experience::create($validated);
 
         return redirect()->route('admin.experience.index')->with('success', 'Experience created successfully.');
+    }
+
+    /**
+     * Reorder experiences via drag & drop
+     */
+    public function reorder(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:experiences,id',
+        ]);
+
+        foreach ($validated['ids'] as $index => $id) {
+            Experience::where('id', $id)->update(['order' => $index]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -88,7 +107,6 @@ class ExperienceController extends Controller
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'employment_type' => 'nullable|string|max:50',
-            'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
