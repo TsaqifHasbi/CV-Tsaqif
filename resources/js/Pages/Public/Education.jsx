@@ -164,7 +164,7 @@ export default function Education({
                                                             <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
                                                                 {skill.logo ? (
                                                                     <img
-                                                                        src={`/storage/${skill.logo}`}
+                                                                        src={skill.logo}
                                                                         alt={skill.name}
                                                                         className="w-6 h-6 object-contain"
                                                                     />

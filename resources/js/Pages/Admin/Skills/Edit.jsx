@@ -64,7 +64,7 @@ export default function Edit({ skill, categories }) {
                             <div className="w-16 h-16 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
                                 {logoPreview || skill.logo ? (
                                     <img 
-                                        src={logoPreview || `/storage/${skill.logo}`} 
+                                        src={logoPreview || skill.logo} 
                                         alt={skill.name} 
                                         className="w-12 h-12 object-contain" 
                                     />
