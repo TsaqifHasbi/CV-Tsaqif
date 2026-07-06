@@ -33,7 +33,14 @@ export default function Index({ skills }) {
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
-                        Add Skill
+                    </Link>
+                </div>
+                <div className="flex border-b border-gray-200">
+                    <Link href={route('admin.skills.index')} className="px-4 py-2 border-b-2 border-rose-500 font-semibold text-rose-600 text-sm">
+                        Skills List
+                    </Link>
+                    <Link href={route('admin.skill-categories.index')} className="px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        Categories Settings
                     </Link>
                 </div>
                 <div className="glass-card rounded-xl overflow-hidden">

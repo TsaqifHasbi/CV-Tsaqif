@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\SkillCategoryController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\FileServeController;
 use App\Http\Controllers\ProfileController;
@@ -80,6 +81,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     // Skills CRUD
     Route::delete('/skills/{skill}/logo', [SkillController::class, 'deleteLogo'])->name('skills.delete-logo');
     Route::resource('skills', SkillController::class);
+
+    // Skill Categories
+    Route::get('skill-categories', [SkillCategoryController::class, 'index'])->name('skill-categories.index');
+    Route::put('skill-categories/{category}', [SkillCategoryController::class, 'update'])->name('skill-categories.update');
+    Route::post('skill-categories/reorder', [SkillCategoryController::class, 'reorder'])->name('skill-categories.reorder');
+    Route::delete('skill-categories/{category}', [SkillCategoryController::class, 'destroy'])->name('skill-categories.destroy');
 
     // Projects CRUD
     Route::resource('projects', ProjectController::class);

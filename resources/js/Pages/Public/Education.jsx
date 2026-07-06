@@ -7,6 +7,7 @@ export default function Education({
     socialLinks = [],
     education = [],
     skills = {},
+    tools = {},
 }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -20,6 +21,7 @@ export default function Education({
     const safeSocialLinks = Array.isArray(socialLinks) ? socialLinks : [];
     const safeEducation = Array.isArray(education) ? education : [];
     const safeSkills = (skills && typeof skills === 'object' && !Array.isArray(skills)) ? skills : {};
+    const safeTools = (tools && typeof tools === 'object' && !Array.isArray(tools)) ? tools : {};
 
     const categoryColors = {
         'Desain UI/UX': 'from-pink-400 to-rose-400',
@@ -120,7 +122,7 @@ export default function Education({
 
                     {/* Skills Section */}
                     {Object.keys(safeSkills).length > 0 && (
-                        <section className="py-20 md:py-32 bg-gray-50 overflow-hidden">
+                        <section className="py-16 md:py-24 bg-gray-50 overflow-hidden">
                             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
                                 <div>
                                     <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
@@ -131,64 +133,96 @@ export default function Education({
                             </div>
 
                             <div className="space-y-12">
-                                {Object.entries(safeSkills).map(([category, categorySkills], categoryIndex) => {
-                                    const isOdd = categoryIndex % 2 === 0; // 1st is odd (index 0) -> scroll right, 2nd is even (index 1) -> scroll left
+                                {Object.entries(safeSkills).map(([category, categorySkills], categoryIndex) => (
+                                    <CategoryMarquee
+                                        key={category}
+                                        category={category}
+                                        categorySkills={categorySkills}
+                                        isOdd={categoryIndex % 2 === 0}
+                                    />
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
-                                    // Helper to duplicate skills for seamless looping
-                                    const getDuplicatedSkills = (items) => {
-                                        if (!items || items.length === 0) return [];
-                                        let duplicated = [...items];
-                                        while (duplicated.length < 12) {
-                                            duplicated = [...duplicated, ...items];
-                                        }
-                                        return [...duplicated, ...duplicated];
-                                    };
+                    {/* Tools Section */}
+                    {Object.keys(safeTools).length > 0 && (
+                        <section className="py-16 md:py-24 bg-white overflow-hidden">
+                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                                <div>
+                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
+                                        Tools & <span className="text-rose-500">Technologies</span>
+                                    </h2>
+                                    <p className="text-gray-500 text-sm">Software, utilities and workflows I use</p>
+                                </div>
+                            </div>
 
-                                    const duplicatedList = getDuplicatedSkills(categorySkills);
-
-                                    return (
-                                        <div key={category} className="space-y-4">
-                                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                                                <h3 className="text-lg font-bold text-gray-800 border-l-4 border-rose-500 pl-3">
-                                                    {category}
-                                                </h3>
-                                            </div>
-
-                                            <div className="w-full marquee-container">
-                                                <div className={isOdd ? 'marquee-track-right' : 'marquee-track-left'}>
-                                                    {duplicatedList.map((skill, idx) => (
-                                                        <div
-                                                            key={`${skill.id || idx}-${idx}`}
-                                                            className="inline-flex items-center gap-3 px-5 py-3 mx-3 bg-white border border-gray-150 rounded-xl shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 cursor-default"
-                                                        >
-                                                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
-                                                                {skill.logo_url ? (
-                                                                    <img
-                                                                        src={skill.logo_url}
-                                                                        alt={skill.name}
-                                                                        className="w-6 h-6 object-contain"
-                                                                    />
-                                                                ) : (
-                                                                    <span className="text-xs font-bold text-rose-500 bg-rose-50 w-full h-full flex items-center justify-center">
-                                                                        {skill.name.substring(0, 2).toUpperCase()}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-                                                            <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">
-                                                                {skill.name}
-                                                            </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                            <div className="space-y-12">
+                                {Object.entries(safeTools).map(([category, categorySkills], categoryIndex) => (
+                                    <CategoryMarquee
+                                        key={category}
+                                        category={category}
+                                        categorySkills={categorySkills}
+                                        isOdd={categoryIndex % 2 !== 0}
+                                    />
+                                ))}
                             </div>
                         </section>
                     )}
                 </PublicLayout>
             </div>
         </>
+    );
+}
+
+// Reusable Scrolling Marquee for a Category
+function CategoryMarquee({ category, categorySkills, isOdd }) {
+    const getDuplicatedSkills = (items) => {
+        if (!items || items.length === 0) return [];
+        let duplicated = [...items];
+        while (duplicated.length < 12) {
+            duplicated = [...duplicated, ...items];
+        }
+        return [...duplicated, ...duplicated];
+    };
+
+    const duplicatedList = getDuplicatedSkills(categorySkills);
+
+    return (
+        <div className="space-y-4">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 className="text-lg font-bold text-gray-800 border-l-4 border-rose-500 pl-3">
+                    {category}
+                </h3>
+            </div>
+
+            <div className="w-full marquee-container">
+                <div className={isOdd ? 'marquee-track-right' : 'marquee-track-left'}>
+                    {duplicatedList.map((skill, idx) => (
+                        <div
+                            key={`${skill.id || idx}-${idx}`}
+                            className="inline-flex items-center gap-3 px-5 py-3 mx-3 bg-white border border-gray-150 rounded-xl shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 cursor-default"
+                        >
+                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
+                                {skill.logo_url ? (
+                                    <img
+                                        src={skill.logo_url}
+                                        alt={skill.name}
+                                        className="w-6 h-6 object-contain"
+                                    />
+                                ) : (
+                                    <span className="text-xs font-bold text-rose-500 bg-rose-50 w-full h-full flex items-center justify-center">
+                                        {skill.name.substring(0, 2).toUpperCase()}
+                                    </span>
+                                )}
+                            </div>
+                            <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">
+                                {skill.name}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 }

@@ -69,4 +69,12 @@ class Skill extends Model
         }
         return null;
     }
+
+    /**
+     * Get the category detail for this skill
+     */
+    public function categoryDetail()
+    {
+        return $this->belongsTo(SkillCategory::class, 'category', 'name');
+    }
 }

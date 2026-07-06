@@ -54,11 +54,51 @@ class PublicController extends Controller
         $data = $this->getCommonData();
         $data['education'] = Education::active()->ordered()->get();
 
-        $skills = Skill::active()->groupedByCategory()->get();
-        $skills->each->append('logo_url');
-        $data['skills'] = $skills->groupBy('category')->map(function ($items) {
-            return $items->values()->toArray();
-        })->toArray();
+        // Self-heal: ensure all categories used in skills exist in skill_categories
+        $missingCategories = Skill::distinct()
+            ->pluck('category')
+            ->filter()
+            ->diff(\App\Models\SkillCategory::pluck('name'));
+
+        if ($missingCategories->isNotEmpty()) {
+            $maxOrder = \App\Models\SkillCategory::max('order') ?? -1;
+            foreach ($missingCategories as $index => $categoryName) {
+                \App\Models\SkillCategory::firstOrCreate([
+                    'name' => $categoryName,
+                ], [
+                    'type' => 'skill',
+                    'order' => $maxOrder + 1 + $index,
+                ]);
+            }
+        }
+
+        // Fetch categories ordered by custom order
+        $categories = \App\Models\SkillCategory::orderBy('order', 'asc')->get();
+
+        $skillsGrouped = [];
+        $toolsGrouped = [];
+
+        foreach ($categories as $cat) {
+            $catSkills = Skill::active()
+                ->where('category', $cat->name)
+                ->ordered()
+                ->get();
+
+            if ($catSkills->isEmpty()) {
+                continue;
+            }
+
+            $catSkills->each->append('logo_url');
+
+            if ($cat->type === 'tool') {
+                $toolsGrouped[$cat->name] = $catSkills->values()->toArray();
+            } else {
+                $skillsGrouped[$cat->name] = $catSkills->values()->toArray();
+            }
+        }
+
+        $data['skills'] = $skillsGrouped;
+        $data['tools'] = $toolsGrouped;
 
         return Inertia::render('Public/Education', $data);
     }
