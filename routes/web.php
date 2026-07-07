@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SkillCategoryController;
 use App\Http\Controllers\Admin\SocialLinkController;
+use App\Http\Controllers\Admin\ToggleController;
+use App\Http\Controllers\Admin\JobApplicationController;
 use App\Http\Controllers\FileServeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
@@ -64,6 +66,10 @@ Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/memo', [DashboardController::class, 'updateMemo'])->name('dashboard.memo.update');
+
+    // Generic Toggle Route
+    Route::patch('/toggle/{model}/{id}/{field}', [ToggleController::class, 'toggle'])->name('toggle');
 
     // Profile Management
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
@@ -98,6 +104,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     // Social Links CRUD
     Route::resource('social-links', SocialLinkController::class);
+
+    // Job Applications Tracking (Google Sheets integration)
+    Route::get('job-applications', [JobApplicationController::class, 'index'])->name('job-applications.index');
+    Route::post('job-applications', [JobApplicationController::class, 'store'])->name('job-applications.store');
+    Route::put('job-applications/{row}', [JobApplicationController::class, 'update'])->name('job-applications.update');
+    Route::delete('job-applications/{row}', [JobApplicationController::class, 'destroy'])->name('job-applications.destroy');
 });
 
 // Redirect /dashboard to admin dashboard for authenticated users
