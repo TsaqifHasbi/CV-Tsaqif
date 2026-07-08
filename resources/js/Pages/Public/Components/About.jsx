@@ -128,7 +128,7 @@ export default function About({ profile }) {
                             <div className="pt-4">
                                 <a
                                     href={profile.cv_file}
-                                    download
+                                    download="CV of Tsaqif Hasbi Aghna Syarief"
                                     className="btn-primary"
                                 >
                                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

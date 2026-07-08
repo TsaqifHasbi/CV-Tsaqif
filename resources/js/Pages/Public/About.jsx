@@ -121,7 +121,7 @@ export default function About({
                                         <div className="pt-2">
                                             <a
                                                 href={safeProfile.cv_file}
-                                                download
+                                                download="CV of Tsaqif Hasbi Aghna Syarief"
                                                 className="btn-primary"
                                             >
                                                 Download CV

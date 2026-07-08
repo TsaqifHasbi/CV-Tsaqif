@@ -38,7 +38,7 @@ export default function Hero({ profile, socialLinks }) {
                             <div>
                                 <a
                                     href={profile.cv_file}
-                                    download
+                                    download="CV of Tsaqif Hasbi Aghna Syarief"
                                     className="btn-primary"
                                 >
                                     Download CV
