@@ -31,8 +31,8 @@ export default function Projects({ projects }) {
                     {filteredProjects.map((project) => (
                         <div key={project.id} className="glass-card rounded-xl overflow-hidden card-hover group">
                             <div className="aspect-video bg-dark-700 overflow-hidden">
-                                {project.image ? (
-                                    <img src={`/storage/${project.image}`} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                {project.image_url ? (
+                                    <img src={project.image_url} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center">
                                         <svg className="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

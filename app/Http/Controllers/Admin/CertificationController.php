@@ -53,7 +53,10 @@ class CertificationController extends Controller
         $validated['order'] = $validated['order'] ?? 0;
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('certifications', 'public');
+            $file = $request->file('image');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         Certification::create($validated);
@@ -91,10 +94,13 @@ class CertificationController extends Controller
         $validated['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('image')) {
-            if ($certification->image) {
+            if ($certification->image && !str_starts_with($certification->image, 'data:')) {
                 Storage::disk('public')->delete($certification->image);
             }
-            $validated['image'] = $request->file('image')->store('certifications', 'public');
+            $file = $request->file('image');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         $certification->update($validated);
@@ -107,7 +113,7 @@ class CertificationController extends Controller
      */
     public function destroy(Certification $certification): RedirectResponse
     {
-        if ($certification->image) {
+        if ($certification->image && !str_starts_with($certification->image, 'data:')) {
             Storage::disk('public')->delete($certification->image);
         }
 
@@ -122,7 +128,9 @@ class CertificationController extends Controller
     public function deleteImage(Certification $certification): RedirectResponse
     {
         if ($certification->image) {
-            Storage::disk('public')->delete($certification->image);
+            if (!str_starts_with($certification->image, 'data:')) {
+                Storage::disk('public')->delete($certification->image);
+            }
             $certification->update(['image' => null]);
         }
 

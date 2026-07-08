@@ -148,6 +148,48 @@ class PublicController extends Controller
     }
 
     /**
+     * Serve a project image by ID (returns the image from base64 stored in DB)
+     */
+    public function serveProjectImage(Project $project): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    {
+        if (!$project->image) {
+            abort(404);
+        }
+
+        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $project->image, $matches)) {
+            $mime = $matches[1];
+            $data = base64_decode($matches[2]);
+
+            return response($data, 200)
+                ->header('Content-Type', $mime)
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+
+        abort(404);
+    }
+
+    /**
+     * Serve a certification image by ID (returns the image from base64 stored in DB)
+     */
+    public function serveCertificationImage(Certification $certification): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    {
+        if (!$certification->image) {
+            abort(404);
+        }
+
+        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $certification->image, $matches)) {
+            $mime = $matches[1];
+            $data = base64_decode($matches[2]);
+
+            return response($data, 200)
+                ->header('Content-Type', $mime)
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+
+        abort(404);
+    }
+
+    /**
      * Send Contact Message
      */
     public function sendContactMessage(Request $request)

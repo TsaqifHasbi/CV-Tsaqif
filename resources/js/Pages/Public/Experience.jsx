@@ -274,9 +274,9 @@ export default function Experience({
                                             }}
                                         >
                                             <div className="aspect-video bg-gradient-to-br from-rose-100 to-pink-50 overflow-hidden relative">
-                                                {project.image ? (
+                                                {project.image_url ? (
                                                     <img
-                                                        src={`/storage/${project.image}`}
+                                                        src={project.image_url}
                                                         alt={project.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                                     />

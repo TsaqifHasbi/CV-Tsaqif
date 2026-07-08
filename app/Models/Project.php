@@ -23,6 +23,10 @@ class Project extends Model
         'is_active',
     ];
 
+    protected $hidden = ['image'];
+
+    protected $appends = ['image_url'];
+
     protected $casts = [
         'completion_date' => 'date',
         'is_featured' => 'boolean',
@@ -60,6 +64,9 @@ class Project extends Model
     public function getImageUrlAttribute(): ?string
     {
         if ($this->image) {
+            if (str_starts_with($this->image, 'data:')) {
+                return route('projects.image', $this, false);
+            }
             return asset('storage/' . $this->image);
         }
         return null;

@@ -53,6 +53,12 @@ Route::post('/contact/send', [PublicController::class, 'sendContactMessage'])->n
 // Skill Logo (serves base64 logo as image response)
 Route::get('/skills/{skill}/logo', [PublicController::class, 'serveSkillLogo'])->name('skills.logo');
 
+// Project Image (serves base64 image as image response)
+Route::get('/projects/{project}/image', [PublicController::class, 'serveProjectImage'])->name('projects.image');
+
+// Certification Image (serves base64 image as image response)
+Route::get('/certifications/{certification}/image', [PublicController::class, 'serveCertificationImage'])->name('certifications.image');
+
 // Blog page
 Route::get('https://teknocode01.wordpress.com/', [PublicController::class, 'blog'])->name('blog');
 

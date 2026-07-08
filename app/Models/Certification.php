@@ -21,6 +21,10 @@ class Certification extends Model
         'is_active',
     ];
 
+    protected $hidden = ['image'];
+
+    protected $appends = ['image_url'];
+
     protected $casts = [
         'is_active' => 'boolean',
         'order' => 'integer',
@@ -48,6 +52,9 @@ class Certification extends Model
     public function getImageUrlAttribute(): ?string
     {
         if ($this->image) {
+            if (str_starts_with($this->image, 'data:')) {
+                return route('certifications.image', $this, false);
+            }
             return asset('storage/' . $this->image);
         }
         return null;

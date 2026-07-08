@@ -60,7 +60,10 @@ class ProjectController extends Controller
         $validated['order'] = $validated['order'] ?? 0;
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('projects', 'public');
+            $file = $request->file('image');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         Project::create($validated);
@@ -104,10 +107,13 @@ class ProjectController extends Controller
         $validated['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('image')) {
-            if ($project->image) {
+            if ($project->image && !str_starts_with($project->image, 'data:')) {
                 Storage::disk('public')->delete($project->image);
             }
-            $validated['image'] = $request->file('image')->store('projects', 'public');
+            $file = $request->file('image');
+            $base64 = base64_encode(file_get_contents($file->path()));
+            $mime = $file->getClientMimeType();
+            $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         $project->update($validated);
@@ -120,7 +126,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): RedirectResponse
     {
-        if ($project->image) {
+        if ($project->image && !str_starts_with($project->image, 'data:')) {
             Storage::disk('public')->delete($project->image);
         }
 
@@ -135,7 +141,9 @@ class ProjectController extends Controller
     public function deleteImage(Project $project): RedirectResponse
     {
         if ($project->image) {
-            Storage::disk('public')->delete($project->image);
+            if (!str_starts_with($project->image, 'data:')) {
+                Storage::disk('public')->delete($project->image);
+            }
             $project->update(['image' => null]);
         }
 
