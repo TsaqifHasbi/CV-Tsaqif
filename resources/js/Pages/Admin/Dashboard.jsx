@@ -594,9 +594,9 @@ export default function Dashboard({
 
                         <div className="glass-card p-6 rounded-2xl border border-gray-205 shadow-sm bg-white">
                             <h4 className="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
-                                <svg className="w-4.5 h-4.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {/* <svg className="w-4.5 h-4.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                                </svg> */}
                                 Kelengkapan Profil Portofolio
                             </h4>
                             <div className="space-y-3">
