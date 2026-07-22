@@ -1,6 +1,6 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function Edit({ profile }) {
     const [photoPreview, setPhotoPreview] = useState(null);
@@ -17,6 +17,23 @@ export default function Edit({ profile }) {
         cv_file: null,
     });
 
+    // Separate form for password change
+    const passwordInput = useRef();
+    const currentPasswordInput = useRef();
+    const [passwordSuccess, setPasswordSuccess] = useState(false);
+    const {
+        data: passwordData,
+        setData: setPasswordData,
+        put: putPassword,
+        processing: passwordProcessing,
+        errors: passwordErrors,
+        reset: resetPassword,
+    } = useForm({
+        current_password: '',
+        password: '',
+        password_confirmation: '',
+    });
+
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('admin.profile.update'), { forceFormData: true });
@@ -28,6 +45,30 @@ export default function Edit({ profile }) {
             setData('profile_photo', file);
             setPhotoPreview(URL.createObjectURL(file));
         }
+    };
+
+    const handlePasswordSubmit = (e) => {
+        e.preventDefault();
+        setPasswordSuccess(false);
+
+        putPassword(route('password.update'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                resetPassword();
+                setPasswordSuccess(true);
+                setTimeout(() => setPasswordSuccess(false), 3000);
+            },
+            onError: (errors) => {
+                if (errors.password) {
+                    resetPassword('password', 'password_confirmation');
+                    passwordInput.current?.focus();
+                }
+                if (errors.current_password) {
+                    resetPassword('current_password');
+                    currentPasswordInput.current?.focus();
+                }
+            },
+        });
     };
 
     return (
@@ -95,6 +136,76 @@ export default function Edit({ profile }) {
 
                 <div className="flex justify-end">
                     <button type="submit" disabled={processing} className="btn-primary">{processing ? 'Saving...' : 'Save Profile'}</button>
+                </div>
+            </form>
+
+            {/* Change Password - separate form */}
+            <form onSubmit={handlePasswordSubmit} className="max-w-4xl mt-6">
+                <div className="glass-card p-6 rounded-xl">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-gray-900">Ubah Password</h3>
+                            <p className="text-sm text-gray-500">Pastikan akun Anda menggunakan password yang panjang dan acak agar tetap aman.</p>
+                        </div>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <label className="form-label">Password Saat Ini</label>
+                            <input
+                                ref={currentPasswordInput}
+                                type="password"
+                                value={passwordData.current_password}
+                                onChange={(e) => setPasswordData('current_password', e.target.value)}
+                                className="form-input"
+                                autoComplete="current-password"
+                                placeholder="••••••••"
+                            />
+                            {passwordErrors.current_password && <p className="text-red-500 text-sm mt-1">{passwordErrors.current_password}</p>}
+                        </div>
+                        <div>
+                            <label className="form-label">Password Baru</label>
+                            <input
+                                ref={passwordInput}
+                                type="password"
+                                value={passwordData.password}
+                                onChange={(e) => setPasswordData('password', e.target.value)}
+                                className="form-input"
+                                autoComplete="new-password"
+                                placeholder="••••••••"
+                            />
+                            {passwordErrors.password && <p className="text-red-500 text-sm mt-1">{passwordErrors.password}</p>}
+                        </div>
+                        <div>
+                            <label className="form-label">Konfirmasi Password</label>
+                            <input
+                                type="password"
+                                value={passwordData.password_confirmation}
+                                onChange={(e) => setPasswordData('password_confirmation', e.target.value)}
+                                className="form-input"
+                                autoComplete="new-password"
+                                placeholder="••••••••"
+                            />
+                            {passwordErrors.password_confirmation && <p className="text-red-500 text-sm mt-1">{passwordErrors.password_confirmation}</p>}
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-end gap-3 mt-6">
+                        {passwordSuccess && (
+                            <span className="text-sm text-emerald-600 flex items-center gap-1.5 animate-fade-in">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                                Password berhasil diubah!
+                            </span>
+                        )}
+                        <button type="submit" disabled={passwordProcessing} className="btn-primary">
+                            {passwordProcessing ? 'Menyimpan...' : 'Ubah Password'}
+                        </button>
+                    </div>
                 </div>
             </form>
         </AdminLayout>
