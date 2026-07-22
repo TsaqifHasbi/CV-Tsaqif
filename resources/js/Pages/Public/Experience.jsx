@@ -34,179 +34,126 @@ export default function Experience({
         return `${months[date.getMonth()]} ${date.getFullYear()}`;
     };
 
-    // Icons for different types of work
-    const getWorkIcon = (title) => {
-        const lowerTitle = title.toLowerCase();
-        if (lowerTitle.includes('asisten') || lowerTitle.includes('lab')) {
-            return (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-            );
-        }
-        if (lowerTitle.includes('ketua') || lowerTitle.includes('lead') || lowerTitle.includes('koordinator')) {
-            return (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-            );
-        }
-        if (lowerTitle.includes('staff')) {
-            return (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-            );
-        }
-        if (lowerTitle.includes('seo') || lowerTitle.includes('marketing')) {
-            return (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-            );
-        }
-        return (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-        );
-    };
-
-    // Color variants for cards
-    const cardColors = [
-        { bg: 'from-rose-50 to-pink-50', border: 'border-rose-200', accent: 'bg-rose-500', text: 'text-rose-600' },
-        // { bg: 'from-gray-50 to-slate-50', border: 'border-gray-200', accent: 'bg-gray-500', text: 'text-gray-600' },
-        // { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-200', accent: 'bg-blue-500', text: 'text-blue-600' },
-        // { bg: 'from-amber-50 to-orange-50', border: 'border-amber-200', accent: 'bg-amber-500', text: 'text-amber-600' },
-        // { bg: 'from-emerald-50 to-green-50', border: 'border-emerald-200', accent: 'bg-emerald-500', text: 'text-emerald-600' },
-        // { bg: 'from-violet-50 to-purple-50', border: 'border-violet-200', accent: 'bg-violet-500', text: 'text-violet-600' },
-    ];
-
     const renderTimeline = (items, prefix) => {
         if (!items || items.length === 0) return null;
         
         return (
-            <div className="relative">
-                {/* Center Timeline Line */}
-                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-rose-500 from-[95%] to-rose-500/20 rounded-full"></div>
+            <div className="w-[85%] md:w-[80%] max-w-4xl mx-auto">
+                {items.map((item, index) => {
+                    const uniqueId = `${prefix}-${item.id}`;
+                    const isExpanded = expandedId === uniqueId;
+                    const isLast = index === items.length - 1;
 
-                {/* Mobile Timeline Line */}
-                <div className="md:hidden absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 from-[95%] to-rose-500/20"></div>
+                    return (
+                        <div
+                            key={item.id}
+                            className="flex group/item"
+                            style={{
+                                opacity: isVisible ? 1 : 0,
+                                transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+                                transition: `all 0.5s cubic-bezier(0.22, 1, 0.36, 1) ${index * 120}ms`
+                            }}
+                        >
+                            {/* Dot + Line Column — structurally aligned */}
+                            <div className="flex flex-col items-center flex-shrink-0 w-6">
+                                {/* Line above dot */}
+                                <div className={`w-[2px] flex-1 ${index === 0 ? 'bg-transparent' : 'bg-rose-200'}`}></div>
+                                {/* Dot */}
+                                <div className={`w-3 h-3 rounded-full flex-shrink-0 transition-all duration-300 ${
+                                    item.is_current 
+                                        ? 'bg-rose-500 shadow-[0_0_0_4px_rgba(244,63,94,0.15),0_0_10px_rgba(244,63,94,0.25)]' 
+                                        : 'bg-rose-300 group-hover/item:bg-rose-500 group-hover/item:shadow-[0_0_0_3px_rgba(244,63,94,0.1)]'
+                                }`}></div>
+                                {/* Line below dot */}
+                                <div className={`w-[2px] flex-1 ${isLast ? 'bg-gradient-to-b from-rose-200 to-transparent' : 'bg-rose-200'}`}></div>
+                            </div>
 
-                {/* Timeline Items */}
-                <div className="space-y-12">
-                    {items.map((item, index) => {
-                        const colorScheme = cardColors[index % cardColors.length];
-                        const isEven = index % 2 === 0;
-                        const uniqueId = `${prefix}-${item.id}`;
-                        const isExpanded = expandedId === uniqueId;
+                            {/* Card */}
+                            <div className="flex-1 pb-5 pl-4 md:pl-5">
+                                <div
+                                    className={`relative rounded-2xl cursor-pointer transition-all duration-300 overflow-hidden
+                                        ${item.is_current 
+                                            ? 'bg-white shadow-[0_2px_16px_rgba(244,63,94,0.08)] border border-rose-100 hover:shadow-[0_8px_32px_rgba(244,63,94,0.12)] hover:-translate-y-0.5' 
+                                            : 'bg-white shadow-sm border border-gray-100 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-gray-200'
+                                        }`}
+                                    onClick={() => setExpandedId(isExpanded ? null : uniqueId)}
+                                >
+                                    {/* Left Accent Bar */}
+                                    <div className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-2xl ${
+                                        item.is_current 
+                                            ? 'bg-gradient-to-b from-rose-500 to-pink-400' 
+                                            : 'bg-gradient-to-b from-rose-200 to-rose-100 group-hover/item:from-rose-400 group-hover/item:to-rose-300'
+                                    } transition-all duration-300`}></div>
 
-                        return (
-                            <div
-                                key={item.id}
-                                className={`relative flex items-start ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                                style={{
-                                    opacity: isVisible ? 1 : 0,
-                                    transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-                                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 150}ms`
-                                }}
-                            >
-                                {/* Timeline Dot - Center */}
-                                <div className="hidden md:flex absolute left-1/2 top-8 transform -translate-x-1/2 z-10">
-                                    <div className="w-5 h-5 rounded-full bg-rose-500 border-4 border-white shadow-md"></div>
-                                </div>
-
-                                {/* Mobile Timeline Dot */}
-                                <div className="md:hidden absolute left-2 top-8 transform -translate-x-1/2 z-10">
-                                    <div className="w-5 h-5 rounded-full bg-rose-500 border-4 border-white shadow-md"></div>
-                                </div>
-
-                                {/* Content Card */}
-                                <div className={`w-full md:w-[calc(50%-40px)] ${isEven ? 'md:pr-8' : 'md:pl-8'} pl-10 md:pl-0`}>
-                                    <div
-                                        className={`bg-gradient-to-br ${colorScheme.bg} border ${colorScheme.border} rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group`}
-                                        onClick={() => setExpandedId(isExpanded ? null : uniqueId)}
-                                    >
-                                        {/* Header */}
-                                        <div className="flex items-start justify-between mb-4">
-                                            <div className="flex-1">
-                                                {/* Date Badge */}
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colorScheme.text} bg-white shadow-sm`}>
-                                                        {formatDate(item.start_date)} - {item.is_current ? 'Sekarang' : formatDate(item.end_date)}
-                                                    </span>
-                                                    {item.is_current && (
-                                                        <span className="relative flex h-3 w-3">
-                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                                            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                                        </span>
-                                                    )}
-                                                </div>
-
-                                                {/* Job Title */}
-                                                <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
-                                                    {item.job_title}
-                                                </h3>
-
-                                                {/* Organization */}
-                                                <p className="text-gray-700 font-semibold flex items-center gap-2">
-                                                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    <div className="p-5 md:p-6 pl-6 md:pl-7">
+                                        {/* Top Row: Date Badge + Chevron */}
+                                        <div className="flex items-center justify-between mb-2.5">
+                                            <div className="flex items-center gap-2.5 flex-wrap">
+                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 text-[11px] font-semibold text-gray-500 tracking-wide">
+                                                    <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
-                                                    {item.organization}
-                                                </p>
-
-                                                {/* Location */}
-                                                {item.location && (
-                                                    <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                        </svg>
-                                                        {item.location}
-                                                    </p>
+                                                    {formatDate(item.start_date)} — {item.is_current ? 'Sekarang' : formatDate(item.end_date)}
+                                                </span>
+                                                {item.is_current && (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                        Current
+                                                    </span>
                                                 )}
                                             </div>
-
-                                            {/* Expand Icon */}
-                                            <button className={`p-2 rounded-full bg-white shadow-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <div className={`p-1.5 rounded-lg transition-all duration-300 ${isExpanded ? 'bg-rose-50 rotate-180' : 'bg-transparent group-hover/item:bg-gray-50'}`}>
+                                                <svg className={`w-4 h-4 transition-colors duration-300 ${isExpanded ? 'text-rose-400' : 'text-gray-300 group-hover/item:text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                                 </svg>
-                                            </button>
+                                            </div>
                                         </div>
 
-                                        {/* Description - Expandable */}
-                                        <div className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                        {/* Title */}
+                                        <h3 className="text-[15px] md:text-lg font-bold text-gray-900 leading-snug group-hover/item:text-rose-600 transition-colors duration-200">
+                                            {item.job_title}
+                                        </h3>
+
+                                        {/* Organization & Location */}
+                                        <div className="flex items-center gap-1.5 mt-1 text-sm flex-wrap">
+                                            <svg className="w-3.5 h-3.5 text-rose-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                            </svg>
+                                            <span className="text-gray-500 font-medium">{item.organization}</span>
+                                            {item.location && (
+                                                <>
+                                                    <span className="text-gray-200 mx-0.5">•</span>
+                                                    <svg className="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                    </svg>
+                                                    <span className="text-gray-400">{item.location}</span>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        {/* Preview (collapsed) */}
+                                        {!isExpanded && item.description && (
+                                            <p className="text-[13px] text-gray-400 line-clamp-1 mt-3">
+                                                {item.description.split('\n')[0]}
+                                            </p>
+                                        )}
+
+                                        {/* Expanded Description */}
+                                        <div className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isExpanded ? 'max-h-[800px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
                                             {item.description && (
-                                                <div className="pt-4 border-t border-gray-200/50">
-                                                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                                                <div className="pt-3.5 border-t border-gray-100/80">
+                                                    <p className="text-[13px] text-gray-600 leading-[1.8] whitespace-pre-line">
                                                         {item.description}
                                                     </p>
                                                 </div>
                                             )}
                                         </div>
-
-                                        {/* Preview Description (when collapsed) */}
-                                        {!isExpanded && item.description && (
-                                            <p className="text-gray-500 text-sm line-clamp-2 mt-3">
-                                                {item.description.split('\n')[0]}
-                                            </p>
-                                        )}
-
-                                        {/* Click hint */}
-                                        <p className="text-xs text-gray-400 mt-3 text-center">
-                                            {isExpanded ? 'Klik untuk menutup' : 'Klik untuk detail'}
-                                        </p>
                                     </div>
                                 </div>
-
-                                {/* Empty space for alternating layout */}
-                                <div className="hidden md:block w-[calc(50%-40px)]"></div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+                    );
+                })}
             </div>
         );
     };
