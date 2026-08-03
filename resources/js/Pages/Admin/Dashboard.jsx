@@ -224,10 +224,10 @@ export default function Dashboard({
         <AdminLayout title="Dashboard">
             <Head title="Admin Dashboard" />
 
-            <div className="space-y-8">
+            <div className="space-y-5 sm:space-y-8">
 
                 {/* Modern Welcome Banner */}
-                <div className="relative overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 text-white shadow-md">
+                <div className="relative overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-5 sm:p-8 text-white shadow-md">
                     <div className="absolute right-0 top-0 translate-x-12 -translate-y-12 w-64 h-64 rounded-full bg-rose-500/10 blur-3xl"></div>
                     <div className="absolute left-1/3 bottom-0 w-80 h-80 rounded-full bg-cyan-500/5 blur-3xl"></div>
 
@@ -236,7 +236,7 @@ export default function Dashboard({
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-550/20 text-rose-300 border border-rose-500/30 mb-3">
                                 {getGreeting()} 👋
                             </span>
-                            <h2 className="text-3xl font-display font-extrabold tracking-tight">
+                            <h2 className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight">
                                 Halo, {profile?.full_name ? profile.full_name : 'Admin'}
                             </h2>
                             <p className="text-gray-300 mt-1 max-w-lg text-sm md:text-base leading-relaxed">
@@ -265,12 +265,12 @@ export default function Dashboard({
                         </svg>
                         Ringkasan Portofolio
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
                         {statCards.map((stat) => (
                             <Link
                                 key={stat.label}
                                 href={route(stat.route)}
-                                className="glass-card p-5 rounded-xl block transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-gray-100 hover:border-gray-200"
+                                className="glass-card p-4 sm:p-5 rounded-xl block transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-gray-100 hover:border-gray-200"
                             >
                                 <div className="flex items-center justify-between mb-3">
                                     <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center`}>
@@ -282,7 +282,7 @@ export default function Dashboard({
                                         Ratio: {stat.active}/{stat.total}
                                     </span>
                                 </div>
-                                <p className="text-2xl font-bold text-gray-900">{stat.total}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-900">{stat.total}</p>
                                 <p className="text-xs font-semibold text-gray-900 mt-1">{stat.label}</p>
                                 <p className="text-[10px] text-gray-400 mt-0.5">{stat.subText}</p>
                             </Link>
@@ -291,13 +291,13 @@ export default function Dashboard({
                 </div>
 
                 {/* Main Content Layout Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8">
 
                     {/* Left & Middle Area: Interactive Recent Tabs */}
                     <div className="lg:col-span-2 space-y-6">
 
                         <div className="glass-card rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-                            <div className="px-6 py-5 border-b border-gray-100 bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-100 bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                                 <div>
                                     <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
                                         <svg className="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -309,28 +309,28 @@ export default function Dashboard({
                                 </div>
 
                                 {/* Tabs Selectors */}
-                                <div className="flex bg-gray-100 p-1 rounded-xl text-xs font-semibold border border-gray-200">
+                                <div className="flex bg-gray-100 p-1 rounded-xl text-xs font-semibold border border-gray-200 overflow-x-auto scrollbar-hide">
                                     <button
                                         onClick={() => setActiveTab('projects')}
-                                        className={`px-3 py-1.5 rounded-lg transition-all ${activeTab === 'projects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                                        className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${activeTab === 'projects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                                     >
                                         Proyek
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('experiences')}
-                                        className={`px-3 py-1.5 rounded-lg transition-all ${activeTab === 'experiences' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                                        className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${activeTab === 'experiences' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                                     >
                                         Pengalaman
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('skills')}
-                                        className={`px-3 py-1.5 rounded-lg transition-all ${activeTab === 'skills' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                                        className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${activeTab === 'skills' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                                     >
                                         Skill
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('certifications')}
-                                        className={`px-3 py-1.5 rounded-lg transition-all ${activeTab === 'certifications' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                                        className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${activeTab === 'certifications' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
                                     >
                                         Sertifikat
                                     </button>
@@ -338,7 +338,7 @@ export default function Dashboard({
                             </div>
 
                             {/* Tab Panels */}
-                            <div className="p-6 bg-white">
+                            <div className="p-3 sm:p-6 bg-white">
 
                                 {/* PROJECTS PANEL */}
                                 {activeTab === 'projects' && (

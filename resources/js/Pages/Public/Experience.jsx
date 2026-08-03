@@ -38,7 +38,7 @@ export default function Experience({
         if (!items || items.length === 0) return null;
         
         return (
-            <div className="w-[85%] md:w-[80%] max-w-4xl mx-auto">
+            <div className="w-full sm:w-[90%] md:w-[80%] max-w-4xl mx-auto px-1 sm:px-0">
                 {items.map((item, index) => {
                     const uniqueId = `${prefix}-${item.id}`;
                     const isExpanded = expandedId === uniqueId;
@@ -85,7 +85,7 @@ export default function Experience({
                                             : 'bg-gradient-to-b from-rose-200 to-rose-100 group-hover/item:from-rose-400 group-hover/item:to-rose-300'
                                     } transition-all duration-300`}></div>
 
-                                    <div className="p-5 md:p-6 pl-6 md:pl-7">
+                                    <div className="p-4 sm:p-5 md:p-6 pl-5 sm:pl-6 md:pl-7">
                                         {/* Top Row: Date Badge + Chevron */}
                                         <div className="flex items-center justify-between mb-2.5">
                                             <div className="flex items-center gap-2.5 flex-wrap">
@@ -167,15 +167,15 @@ export default function Experience({
             <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
                 <PublicLayout profile={safeProfile} socialLinks={safeSocialLinks}>
                     {/* Experience Section with Enhanced Cards */}
-                    <section className="py-20 md:py-32 pt-28">
-                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <section className="py-12 sm:py-20 md:py-32 pt-20 sm:pt-28">
+                        <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
                             {workExperiences.length > 0 && (
-                                <div className="mb-20">
-                                    <div className="mb-12 text-center">
-                                        <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+                                <div className="mb-12 sm:mb-20">
+                                    <div className="mb-8 sm:mb-12 text-center">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gray-900 mb-3 sm:mb-4">
                                             Work <span className="text-rose-500">Experience</span>
                                         </h1>
-                                        <p className="text-gray-600 max-w-2xl mx-auto">
+                                        <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
                                             Perjalanan profesional dan karir saya
                                         </p>
                                     </div>
@@ -185,11 +185,11 @@ export default function Experience({
 
                             {organizationExperiences.length > 0 && (
                                 <div>
-                                    <div className="mb-12 text-center">
-                                        <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+                                    <div className="mb-8 sm:mb-12 text-center">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gray-900 mb-3 sm:mb-4">
                                             Organizational <span className="text-rose-500">Experience</span>
                                         </h1>
-                                        <p className="text-gray-600 max-w-2xl mx-auto">
+                                        <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
                                             Kontribusi dan peran aktif dalam organisasi
                                         </p>
                                     </div>
@@ -201,15 +201,15 @@ export default function Experience({
 
                     {/* Projects Section */}
                     {safeProjects.length > 0 && (
-                        <section className="py-20 md:py-32 bg-gray-50">
-                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="mb-12 text-center">
-                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+                        <section className="py-12 sm:py-20 md:py-32 bg-gray-50">
+                            <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+                                <div className="mb-8 sm:mb-12 text-center">
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 mb-3 sm:mb-4">
                                         Featured <span className="text-rose-500">Projects</span>
                                     </h2>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                                     {safeProjects.map((project, index) => (
                                         <div
                                             key={project.id}
@@ -240,7 +240,7 @@ export default function Experience({
                                                 {/* Overlay on hover */}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             </div>
-                                            <div className="p-6">
+                                            <div className="p-4 sm:p-6">
                                                 <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
                                                     {project.title}
                                                 </h3>
@@ -296,15 +296,15 @@ export default function Experience({
 
                     {/* Certifications Section */}
                     {safeCertifications.length > 0 && (
-                        <section className="py-20 md:py-32">
-                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="mb-16 text-center">
-                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+                        <section className="py-12 sm:py-20 md:py-32">
+                            <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+                                <div className="mb-10 sm:mb-16 text-center">
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 mb-3 sm:mb-4">
                                         <span className="text-rose-500">Certifications</span> & Awards
                                     </h2>
                                 </div>
 
-                                <div className="grid md:grid-cols-3 gap-6">
+                                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                                     {safeCertifications.map((cert, index) => (
                                         <div
                                             key={cert.id}

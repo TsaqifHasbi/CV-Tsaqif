@@ -24,16 +24,16 @@ export default function About({
 
             <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
                 <PublicLayout profile={safeProfile} socialLinks={safeSocialLinks}>
-                    <section className="py-20 md:py-32 pt-28">
-                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <section className="py-12 sm:py-20 md:py-32 pt-20 sm:pt-28">
+                        <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
                             {/* Section Header */}
-                            <div className="mb-12">
-                                <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+                            <div className="mb-8 sm:mb-12">
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
                                     About <span className="text-rose-500">Me</span>
                                 </h1>
                             </div>
 
-                            <div className="grid lg:grid-cols-2 gap-12 items-start">
+                            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
                                 {/* Image */}
                                 <div className="relative">
                                     <div className="relative rounded-2xl overflow-hidden shadow-xl">
@@ -41,10 +41,10 @@ export default function About({
                                             <img
                                                 src={safeProfile.profile_photo}
                                                 alt={safeProfile.full_name}
-                                                className="w-full h-[300px] lg:h-[400px] object-cover"
+                                                className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover"
                                             />
                                         ) : (
-                                            <div className="w-full h-[300px] lg:h-[400px] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                            <div className="w-full h-[250px] sm:h-[300px] lg:h-[400px] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                                                 <svg className="w-32 h-32 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                                 </svg>
@@ -80,7 +80,7 @@ export default function About({
                                     )}
 
                                     {/* Contact Info - Compact */}
-                                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
+                                    <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-3 sm:gap-x-6 sm:gap-y-2 text-sm text-gray-600">
                                         {safeProfile.email && (
                                             <a href={`mailto:${safeProfile.email}`} className="flex items-center gap-1.5 hover:text-rose-500 transition-colors">
                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
