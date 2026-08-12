@@ -101,6 +101,8 @@ class CertificationController extends Controller
             $base64 = base64_encode(file_get_contents($file->path()));
             $mime = $file->getClientMimeType();
             $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
+        } else {
+            unset($validated['image']);
         }
 
         $certification->update($validated);

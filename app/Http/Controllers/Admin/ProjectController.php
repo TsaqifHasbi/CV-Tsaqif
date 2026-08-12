@@ -114,6 +114,8 @@ class ProjectController extends Controller
             $base64 = base64_encode(file_get_contents($file->path()));
             $mime = $file->getClientMimeType();
             $validated['image'] = 'data:' . $mime . ';base64,' . $base64;
+        } else {
+            unset($validated['image']);
         }
 
         $project->update($validated);
