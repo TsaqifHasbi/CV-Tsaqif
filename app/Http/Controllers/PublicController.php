@@ -111,7 +111,17 @@ class PublicController extends Controller
         $data = $this->getCommonData();
         $data['experiences'] = Experience::active()->ordered()->get();
         $data['projects'] = Project::active()->ordered()->get();
-        $data['certifications'] = Certification::active()->ordered()->get();
+        $data['certifications'] = Certification::where(function ($q) {
+                // Show active certifications (no expiry or not yet expired)
+                $q->where('is_active', true)
+                // Also show expired certifications (have valid_until date that has passed)
+                ->orWhere(function ($q2) {
+                    $q2->whereNotNull('valid_until')
+                       ->where('valid_until', '<', now()->toDateString());
+                });
+            })
+            ->ordered()
+            ->get();
 
         return Inertia::render('Public/Experience', $data);
     }

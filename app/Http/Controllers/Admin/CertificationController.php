@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Certification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -45,12 +46,20 @@ class CertificationController extends Controller
             'credential_url' => 'nullable|url|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'valid_from' => 'nullable|date',
+            'valid_until' => 'nullable|date|after_or_equal:valid_from',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
-        $validated['is_active'] = $request->boolean('is_active', true);
         $validated['order'] = $validated['order'] ?? 0;
+
+        // Auto-determine is_active based on validity period
+        if (!empty($validated['valid_until'])) {
+            $validated['is_active'] = Carbon::parse($validated['valid_until'])->greaterThanOrEqualTo(Carbon::today());
+        } else {
+            $validated['is_active'] = $request->boolean('is_active', true);
+        }
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -87,11 +96,18 @@ class CertificationController extends Controller
             'credential_url' => 'nullable|url|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'valid_from' => 'nullable|date',
+            'valid_until' => 'nullable|date|after_or_equal:valid_from',
             'order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
 
-        $validated['is_active'] = $request->boolean('is_active', true);
+        // Auto-determine is_active based on validity period
+        if (!empty($validated['valid_until'])) {
+            $validated['is_active'] = Carbon::parse($validated['valid_until'])->greaterThanOrEqualTo(Carbon::today());
+        } else {
+            $validated['is_active'] = $request->boolean('is_active', true);
+        }
 
         if ($request->hasFile('image')) {
             if ($certification->image && !str_starts_with($certification->image, 'data:')) {

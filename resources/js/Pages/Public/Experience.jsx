@@ -320,7 +320,7 @@ export default function Experience({
 
                                             <div className="relative">
                                                 {/* Badge Icon */}
-                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-4 shadow-lg">
+                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg ${cert.validity_status === 'expired' ? 'bg-gradient-to-br from-red-400 to-red-500' : 'bg-gradient-to-br from-amber-400 to-orange-500'}`}>
                                                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                                     </svg>
@@ -329,9 +329,15 @@ export default function Experience({
                                                 {/* Year & Status */}
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <span className="text-rose-500 font-semibold text-sm">{cert.year}</span>
-                                                    <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-green-50 text-green-600">
-                                                        Aktif
-                                                    </span>
+                                                    {cert.validity_status === 'expired' || cert.is_expired ? (
+                                                        <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-red-50 text-red-600">
+                                                            Expired
+                                                        </span>
+                                                    ) : (
+                                                        <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-green-50 text-green-600">
+                                                            Active
+                                                        </span>
+                                                    )}
                                                 </div>
 
                                                 {/* Title */}
@@ -343,6 +349,20 @@ export default function Experience({
                                                 <p className="text-gray-600 text-sm font-medium mb-2">
                                                     {cert.issuer}
                                                 </p>
+
+                                                {/* Validity Period */}
+                                                {(cert.valid_from || cert.valid_until) && (
+                                                    <div className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg mb-2 ${cert.validity_status === 'expired' ? 'bg-red-50 text-red-500' : 'bg-emerald-50 text-emerald-600'}`}>
+                                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                        <span>
+                                                            {cert.valid_from ? new Date(cert.valid_from).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
+                                                            {' – '}
+                                                            {cert.valid_until ? new Date(cert.valid_until).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Present'}
+                                                        </span>
+                                                    </div>
+                                                )}
 
                                                 {/* Credential ID */}
                                                 {cert.credential_id && (
