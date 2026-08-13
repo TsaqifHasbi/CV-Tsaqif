@@ -132,7 +132,7 @@ export default function Education({
                                 </div>
                             </div>
 
-                            <div className="space-y-12">
+                            <div className="space-y-6 sm:space-y-12">
                                 {Object.entries(safeSkills).map(([category, categorySkills], categoryIndex) => (
                                     <CategoryMarquee
                                         key={category}
@@ -157,7 +157,7 @@ export default function Education({
                                 </div>
                             </div>
 
-                            <div className="space-y-12">
+                            <div className="space-y-6 sm:space-y-12">
                                 {Object.entries(safeTools).map(([category, categorySkills], categoryIndex) => (
                                     <CategoryMarquee
                                         key={category}
@@ -175,18 +175,41 @@ export default function Education({
     );
 }
 
+// Global cache so duplicated marquee items share load state
+const logoCache = new Map();
+
 // Skill Logo with loading state
 function SkillLogo({ skill }) {
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState(false);
+    const cachedState = skill.logo_url ? logoCache.get(skill.logo_url) : null;
+    const [loaded, setLoaded] = useState(cachedState === 'loaded');
+    const [error, setError] = useState(cachedState === 'error');
 
     // Reset states when logo_url changes
     useEffect(() => {
         if (skill.logo_url) {
-            setLoaded(false);
-            setError(false);
+            const cached = logoCache.get(skill.logo_url);
+            if (cached === 'loaded') {
+                setLoaded(true);
+                setError(false);
+            } else if (cached === 'error') {
+                setLoaded(false);
+                setError(true);
+            } else {
+                setLoaded(false);
+                setError(false);
+            }
         }
     }, [skill.logo_url]);
+
+    const handleLoad = () => {
+        logoCache.set(skill.logo_url, 'loaded');
+        setLoaded(true);
+    };
+
+    const handleError = () => {
+        logoCache.set(skill.logo_url, 'error');
+        setError(true);
+    };
 
     if (!skill.logo_url || error) {
         return (
@@ -198,17 +221,16 @@ function SkillLogo({ skill }) {
 
     return (
         <>
-            {/* Gray placeholder shown while loading */}
+            {/* Checkerboard placeholder shown while loading */}
             {!loaded && (
-                <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg"></div>
+                <div className="absolute inset-0 rounded-lg skill-logo-placeholder"></div>
             )}
             <img
                 src={skill.logo_url}
                 alt={skill.name}
-                className={`w-6 h-6 object-contain transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoad={() => setLoaded(true)}
-                onError={() => setError(true)}
-                loading="lazy"
+                className={`w-5 h-5 sm:w-6 sm:h-6 object-contain transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={handleLoad}
+                onError={handleError}
             />
         </>
     );
@@ -228,9 +250,9 @@ function CategoryMarquee({ category, categorySkills, isOdd }) {
     const duplicatedList = getDuplicatedSkills(categorySkills);
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h3 className="text-lg font-bold text-gray-800 border-l-4 border-rose-500 pl-3">
+                <h3 className="text-sm sm:text-lg font-bold text-gray-800 border-l-4 border-rose-500 pl-2 sm:pl-3">
                     {category}
                 </h3>
             </div>
@@ -240,12 +262,12 @@ function CategoryMarquee({ category, categorySkills, isOdd }) {
                     {duplicatedList.map((skill, idx) => (
                         <div
                             key={`${skill.id || idx}-${idx}`}
-                            className="inline-flex items-center gap-3 px-5 py-3 mx-3 bg-white border border-gray-150 rounded-xl shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 cursor-default"
+                            className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-3 mx-1.5 sm:mx-3 bg-white border border-gray-150 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md hover:border-rose-300 transition-all duration-300 cursor-default"
                         >
-                            <div className="relative w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
+                            <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0 border border-gray-100">
                                 <SkillLogo skill={skill} />
                             </div>
-                            <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">
+                            <span className="font-semibold text-gray-800 text-xs sm:text-sm whitespace-nowrap">
                                 {skill.name}
                             </span>
                         </div>
