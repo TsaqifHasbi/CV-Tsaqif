@@ -28,9 +28,9 @@ export default function Experience({
     const organizationExperiences = safeExperiences.filter(exp => exp.type === 'organization' || (!exp.type && exp.employment_type?.toLowerCase() === 'volunteer'));
 
     const formatDate = (dateString) => {
-        if (!dateString) return 'Sekarang';
+        if (!dateString) return 'Present';
         const date = new Date(dateString);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         return `${months[date.getMonth()]} ${date.getFullYear()}`;
     };
 
@@ -93,7 +93,7 @@ export default function Experience({
                                                     <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
-                                                    {formatDate(item.start_date)} — {item.is_current ? 'Sekarang' : formatDate(item.end_date)}
+                                                    {formatDate(item.start_date)} — {item.is_current ? 'Present' : formatDate(item.end_date)}
                                                 </span>
                                                 {item.is_current && (
                                                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">
@@ -176,7 +176,7 @@ export default function Experience({
                                             Work <span className="text-rose-500">Experience</span>
                                         </h1>
                                         <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
-                                            Perjalanan profesional dan karir saya
+                                            My professional journey and career path
                                         </p>
                                     </div>
                                     {renderTimeline(workExperiences, 'work')}
@@ -190,7 +190,7 @@ export default function Experience({
                                             Organizational <span className="text-rose-500">Experience</span>
                                         </h1>
                                         <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
-                                            Kontribusi dan peran aktif dalam organisasi
+                                            My active involvement and contributions in organizations
                                         </p>
                                     </div>
                                     {renderTimeline(organizationExperiences, 'org')}

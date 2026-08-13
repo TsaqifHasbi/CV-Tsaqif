@@ -25,7 +25,7 @@ export default function Contact({
     useEffect(() => {
         if (flash?.success) {
             Swal.fire({
-                title: 'Berhasil!',
+                title: 'Success!',
                 text: flash.success,
                 icon: 'success',
                 confirmButtonColor: '#f43f5e',
@@ -33,7 +33,7 @@ export default function Contact({
         }
         if (flash?.error) {
             Swal.fire({
-                title: 'Gagal',
+                title: 'Error',
                 text: flash.error,
                 icon: 'error',
                 confirmButtonColor: '#f43f5e',
@@ -66,7 +66,7 @@ export default function Contact({
                                     Get In <span className="text-rose-500">Touch</span>
                                 </h1>
                                 <p className="text-base sm:text-lg text-gray-600 max-w-2xl">
-                                    Jangan ragu untuk menghubungi saya untuk kolaborasi atau sekedar menyapa
+                                    Feel free to reach out to me for collaborations, opportunities, or just to say hi!
                                 </p>
                             </div>
 
@@ -87,7 +87,7 @@ export default function Contact({
 
                                     {safeProfile.phone && (
                                         <div className="p-6 bg-white border border-gray-200 rounded-xl">
-                                            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Telepon</p>
+                                            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Phone</p>
                                             <a
                                                 href={`tel:${safeProfile.phone}`}
                                                 className="text-lg text-gray-900 hover:text-rose-500 transition-colors"
@@ -99,14 +99,14 @@ export default function Contact({
 
                                     {safeProfile.location && (
                                         <div className="p-6 bg-white border border-gray-200 rounded-xl">
-                                            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Lokasi</p>
+                                            <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Location</p>
                                             <p className="text-lg text-gray-900">{safeProfile.location}</p>
                                         </div>
                                     )}
 
                                     {/* Social Links */}
                                     <div className="pt-4">
-                                        <p className="text-sm text-gray-500 mb-4">Temukan saya di media sosial</p>
+                                        <p className="text-sm text-gray-500 mb-4">Find me on social media</p>
                                         <SocialLinks socialLinks={safeSocialLinks} size="large" />
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@ export default function Contact({
                                 {/* Contact Form */}
                                 <div className="p-5 sm:p-8 bg-white border border-gray-200 rounded-xl shadow-sm">
                                     <h3 className="text-2xl font-display font-bold text-gray-900 mb-6">
-                                        Kirim Pesan
+                                        Send Message
                                     </h3>
 
                                     <form onSubmit={submit} className="space-y-6">
@@ -129,7 +129,7 @@ export default function Contact({
 
                                         <div>
                                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                                                Nama Lengkap
+                                                Full Name
                                             </label>
                                             <input
                                                 type="text"
@@ -139,14 +139,14 @@ export default function Contact({
                                                 onChange={e => setData('name', e.target.value)}
                                                 required
                                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                                                placeholder="Masukkan nama Anda"
+                                                placeholder="Enter your name"
                                             />
                                             {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                                         </div>
 
                                         <div>
                                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                                                Alamat Email
+                                                Email Address
                                             </label>
                                             <input
                                                 type="email"
@@ -163,7 +163,7 @@ export default function Contact({
 
                                         <div>
                                             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                                                Pesan
+                                                Message
                                             </label>
                                             <textarea
                                                 id="message"
@@ -173,7 +173,7 @@ export default function Contact({
                                                 required
                                                 rows="4"
                                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                                                placeholder="Tulis pesan Anda di sini..."
+                                                placeholder="Write your message here..."
                                             ></textarea>
                                             {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
                                         </div>
@@ -183,7 +183,7 @@ export default function Contact({
                                             disabled={processing}
                                             className={`w-full py-3 px-6 text-white bg-rose-500 hover:bg-rose-600 rounded-lg font-medium transition-colors duration-200 ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
                                         >
-                                            {processing ? 'Mengirim...' : 'Kirim Pesan'}
+                                            {processing ? 'Sending...' : 'Send Message'}
                                         </button>
                                     </form>
                                 </div>

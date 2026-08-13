@@ -65,6 +65,9 @@ class Skill extends Model
     public function getLogoUrlAttribute(): ?string
     {
         if ($this->logo) {
+            if (str_starts_with($this->logo, 'http://') || str_starts_with($this->logo, 'https://') || str_starts_with($this->logo, '/')) {
+                return $this->logo;
+            }
             return route('skills.logo', $this, false);
         }
         return null;

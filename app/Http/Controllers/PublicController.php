@@ -137,16 +137,22 @@ class PublicController extends Controller
     }
 
     /**
-     * Serve a skill logo by ID (returns the image from base64 stored in DB)
+     * Helper method to serve image from DB column
      */
-    public function serveSkillLogo(Skill $skill): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    private function serveImageFromDatabase(?string $imageContent): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        if (!$skill->logo) {
+        if (!$imageContent) {
             abort(404);
         }
 
-        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $skill->logo, $matches)) {
-            $mime = $matches[1];
+        // If it's a URL or path, redirect directly
+        if (str_starts_with($imageContent, 'http://') || str_starts_with($imageContent, 'https://') || str_starts_with($imageContent, '/')) {
+            return redirect($imageContent);
+        }
+
+        // Match data URI scheme e.g. data:image/svg+xml;base64,... or data:image/png;base64,...
+        if (preg_match('/^data:([^;]+);base64,(.+)$/s', $imageContent, $matches)) {
+            $mime = trim($matches[1]);
             $data = base64_decode($matches[2]);
 
             return response($data, 200)
@@ -154,49 +160,48 @@ class PublicController extends Controller
                 ->header('Cache-Control', 'public, max-age=31536000');
         }
 
+        // Raw SVG markup
+        if (str_starts_with(trim($imageContent), '<svg')) {
+            return response($imageContent, 200)
+                ->header('Content-Type', 'image/svg+xml')
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+
+        // Raw base64 content
+        $decoded = base64_decode($imageContent, true);
+        if ($decoded !== false && !empty($decoded)) {
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->buffer($decoded) ?: 'image/png';
+            return response($decoded, 200)
+                ->header('Content-Type', $mime)
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+
         abort(404);
+    }
+
+    /**
+     * Serve a skill logo by ID (returns the image from base64 stored in DB)
+     */
+    public function serveSkillLogo(Skill $skill): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Routing\ResponseFactory
+    {
+        return $this->serveImageFromDatabase($skill->logo);
     }
 
     /**
      * Serve a project image by ID (returns the image from base64 stored in DB)
      */
-    public function serveProjectImage(Project $project): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    public function serveProjectImage(Project $project): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        if (!$project->image) {
-            abort(404);
-        }
-
-        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $project->image, $matches)) {
-            $mime = $matches[1];
-            $data = base64_decode($matches[2]);
-
-            return response($data, 200)
-                ->header('Content-Type', $mime)
-                ->header('Cache-Control', 'public, max-age=31536000');
-        }
-
-        abort(404);
+        return $this->serveImageFromDatabase($project->image);
     }
 
     /**
      * Serve a certification image by ID (returns the image from base64 stored in DB)
      */
-    public function serveCertificationImage(Certification $certification): \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+    public function serveCertificationImage(Certification $certification): \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        if (!$certification->image) {
-            abort(404);
-        }
-
-        if (preg_match('/^data:(image\/\w+);base64,(.+)$/', $certification->image, $matches)) {
-            $mime = $matches[1];
-            $data = base64_decode($matches[2]);
-
-            return response($data, 200)
-                ->header('Content-Type', $mime)
-                ->header('Cache-Control', 'public, max-age=31536000');
-        }
-
-        abort(404);
+        return $this->serveImageFromDatabase($certification->image);
     }
 
     /**
@@ -219,10 +224,10 @@ class PublicController extends Controller
             \Illuminate\Support\Facades\Mail::to('tsaqifhasbi17@gmail.com')
                 ->send(new \App\Mail\ContactMessage($validated));
 
-            return back()->with('success', 'Pesan Anda berhasil dikirim! Saya akan segera menghubungi Anda kembali.');
+            return back()->with('success', 'Your message has been sent successfully! I will get back to you as soon as possible.');
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Contact form error: ' . $e->getMessage());
-            return back()->with('error', 'Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba beberapa saat lagi.');
+            return back()->with('error', 'Sorry, an error occurred while sending your message. Please try again later.');
         }
     }
 }

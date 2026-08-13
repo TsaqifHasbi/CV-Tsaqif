@@ -84,7 +84,7 @@ export default function Education({
                                                 <div className="group-hover:translate-x-1 transition-transform duration-300">
                                                     {/* Date */}
                                                     <p className="text-rose-500 font-semibold text-sm mb-1">
-                                                        {item.start_year} - {item.end_year || 'Sekarang'}
+                                                        {item.start_year} - {item.end_year || 'Present'}
                                                     </p>
 
                                                     {/* Institution */}
@@ -101,7 +101,7 @@ export default function Education({
                                                     {/* GPA Badge */}
                                                     {item.gpa && (
                                                         <span className="inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full bg-rose-50 text-rose-600 border border-rose-200">
-                                                            IPK: {item.gpa}
+                                                            GPA: {item.gpa}
                                                         </span>
                                                     )}
 
