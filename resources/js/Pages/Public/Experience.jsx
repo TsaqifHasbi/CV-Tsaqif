@@ -36,7 +36,7 @@ export default function Experience({
 
     const renderTimeline = (items, prefix) => {
         if (!items || items.length === 0) return null;
-        
+
         return (
             <div className="w-full sm:w-[90%] md:w-[80%] max-w-4xl mx-auto px-1 sm:px-0">
                 {items.map((item, index) => {
@@ -59,11 +59,10 @@ export default function Experience({
                                 {/* Line above dot */}
                                 <div className={`w-[2px] flex-1 ${index === 0 ? 'bg-transparent' : 'bg-rose-200'}`}></div>
                                 {/* Dot */}
-                                <div className={`w-3 h-3 rounded-full flex-shrink-0 transition-all duration-300 ${
-                                    item.is_current 
-                                        ? 'bg-rose-500 shadow-[0_0_0_4px_rgba(244,63,94,0.15),0_0_10px_rgba(244,63,94,0.25)]' 
+                                <div className={`w-3 h-3 rounded-full flex-shrink-0 transition-all duration-300 ${item.is_current
+                                        ? 'bg-rose-500 shadow-[0_0_0_4px_rgba(244,63,94,0.15),0_0_10px_rgba(244,63,94,0.25)]'
                                         : 'bg-rose-300 group-hover/item:bg-rose-500 group-hover/item:shadow-[0_0_0_3px_rgba(244,63,94,0.1)]'
-                                }`}></div>
+                                    }`}></div>
                                 {/* Line below dot */}
                                 <div className={`w-[2px] flex-1 ${isLast ? 'bg-gradient-to-b from-rose-200 to-transparent' : 'bg-rose-200'}`}></div>
                             </div>
@@ -72,18 +71,17 @@ export default function Experience({
                             <div className="flex-1 pb-5 pl-4 md:pl-5">
                                 <div
                                     className={`relative rounded-2xl cursor-pointer transition-all duration-300 overflow-hidden
-                                        ${item.is_current 
-                                            ? 'bg-white shadow-[0_2px_16px_rgba(244,63,94,0.08)] border border-rose-100 hover:shadow-[0_8px_32px_rgba(244,63,94,0.12)] hover:-translate-y-0.5' 
+                                        ${item.is_current
+                                            ? 'bg-white shadow-[0_2px_16px_rgba(244,63,94,0.08)] border border-rose-100 hover:shadow-[0_8px_32px_rgba(244,63,94,0.12)] hover:-translate-y-0.5'
                                             : 'bg-white shadow-sm border border-gray-100 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 hover:border-gray-200'
                                         }`}
                                     onClick={() => setExpandedId(isExpanded ? null : uniqueId)}
                                 >
                                     {/* Left Accent Bar */}
-                                    <div className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-2xl ${
-                                        item.is_current 
-                                            ? 'bg-gradient-to-b from-rose-500 to-pink-400' 
+                                    <div className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-2xl ${item.is_current
+                                            ? 'bg-gradient-to-b from-rose-500 to-pink-400'
                                             : 'bg-gradient-to-b from-rose-200 to-rose-100 group-hover/item:from-rose-400 group-hover/item:to-rose-300'
-                                    } transition-all duration-300`}></div>
+                                        } transition-all duration-300`}></div>
 
                                     <div className="p-4 sm:p-5 md:p-6 pl-5 sm:pl-6 md:pl-7">
                                         {/* Top Row: Date Badge + Chevron */}
@@ -93,7 +91,7 @@ export default function Experience({
                                                     <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
-                                                    {formatDate(item.start_date)} — {item.is_current ? 'Present' : formatDate(item.end_date)}
+                                                    {formatDate(item.start_date)} - {item.is_current ? 'Present' : formatDate(item.end_date)}
                                                 </span>
                                                 {item.is_current && (
                                                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">
