@@ -1,6 +1,55 @@
 import { Head } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PublicLayout from './Components/PublicLayout';
+
+const OrganizationLocation = ({ item }) => {
+    const [isWrapped, setIsWrapped] = useState(false);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const checkWrap = () => {
+            if (containerRef.current && containerRef.current.children.length > 1) {
+                const firstChild = containerRef.current.children[0];
+                const lastChild = containerRef.current.children[containerRef.current.children.length - 1];
+                // If they have different offsetTop, it means they wrapped to a new line
+                setIsWrapped(firstChild.offsetTop !== lastChild.offsetTop);
+            } else {
+                setIsWrapped(false);
+            }
+        };
+
+        checkWrap();
+        window.addEventListener('resize', checkWrap);
+        
+        // Small timeout to ensure fonts/layout are fully rendered
+        const timeoutId = setTimeout(checkWrap, 100);
+        
+        return () => {
+            window.removeEventListener('resize', checkWrap);
+            clearTimeout(timeoutId);
+        };
+    }, [item.organization, item.location]);
+
+    return (
+        <div ref={containerRef} className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-sm">
+            <div className="flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-rose-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                <span className="text-gray-500 font-medium">{item.organization}</span>
+            </div>
+            {item.location && (
+                <div className="flex items-center gap-1.5">
+                    <span className={`text-gray-300 mr-0.5 transition-opacity duration-200 ${isWrapped ? 'hidden' : 'inline-block'}`}>•</span>
+                    <svg className="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    </svg>
+                    <span className="text-gray-400">{item.location}</span>
+                </div>
+            )}
+        </div>
+    );
+};
 
 export default function Experience({
     profile = null,
@@ -113,21 +162,7 @@ export default function Experience({
                                         </h3>
 
                                         {/* Organization & Location */}
-                                        <div className="flex items-center gap-1.5 mt-1 text-sm flex-wrap">
-                                            <svg className="w-3.5 h-3.5 text-rose-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                            </svg>
-                                            <span className="text-gray-500 font-medium">{item.organization}</span>
-                                            {item.location && (
-                                                <>
-                                                    <span className="text-gray-200 mx-0.5">•</span>
-                                                    <svg className="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                    </svg>
-                                                    <span className="text-gray-400">{item.location}</span>
-                                                </>
-                                            )}
-                                        </div>
+                                        <OrganizationLocation item={item} />
 
                                         {/* Preview (collapsed) */}
                                         {!isExpanded && item.description && (
